@@ -111,7 +111,7 @@ const Index = () => {
     
     if (remainingToGoal <= 0) {
       return {
-        message: 'Congratulations! You've reached your goal. Keep pushing for the bonus tier!',
+        message: "Congratulations! You've reached your goal. Keep pushing for the bonus tier!",
         type: 'success' as const
       };
     } else if (remainingToGoal <= 3500) {
