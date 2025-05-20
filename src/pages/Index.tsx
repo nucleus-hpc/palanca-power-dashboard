@@ -1,12 +1,14 @@
 
 import React, { useState } from 'react';
 import ProfileHeader from '@/components/ProfileHeader';
-import ProgressOverview from '@/components/ProgressOverview';
-import CommissionDriver from '@/components/CommissionDriver';
-import PenaltiesSection from '@/components/PenaltiesSection';
+import CommissionSummary from '@/components/CommissionSummary';
+import DriverCards from '@/components/DriverCards';
+import PenaltyBadges from '@/components/PenaltyBadges';
+import AchievementSection from '@/components/AchievementSection';
 import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
-import MotivationMessage from '@/components/MotivationMessage';
+import { Badge } from "@/components/ui/badge";
+import { Award, Trophy, Flag } from 'lucide-react';
 
 const Index = () => {
   const [period, setPeriod] = useState('may2025');
@@ -18,6 +20,9 @@ const Index = () => {
     commission: 42500,
     goal: 50000,
     currency: 'Q',
+    level: 'Silver Seller',
+    nextLevel: 'Gold Seller',
+    levelProgress: 85,
   };
   
   const commissionDrivers = [
@@ -29,6 +34,9 @@ const Index = () => {
       commission: 2500,
       nextThreshold: 39000,
       nextCommission: 500,
+      progress: 73,
+      icon: 'trending-up',
+      badgeEarned: true,
       trend: [
         { month: 'Jan', value: 10000 },
         { month: 'Feb', value: 15000 },
@@ -46,6 +54,9 @@ const Index = () => {
       commission: 1800,
       nextThreshold: 13,
       nextCommission: 300,
+      progress: 80,
+      icon: 'flag',
+      badgeEarned: true,
       trend: [
         { month: 'Jan', value: 3 },
         { month: 'Feb', value: 5 },
@@ -63,6 +74,9 @@ const Index = () => {
       commission: 2000,
       nextThreshold: 93,
       nextCommission: 500,
+      progress: 97,
+      icon: 'star',
+      badgeEarned: false,
       trend: [
         { month: 'Jan', value: 89 },
         { month: 'Feb', value: 91 },
@@ -105,88 +119,79 @@ const Index = () => {
     return Math.round(totalSalesValue * 0.07);
   };
   
-  // Calculate motivation message
-  const getMotivationMessage = () => {
+  // Calculate remaining to next milestone
+  const getRemainingToGoal = () => {
     const remainingToGoal = salesRepData.goal - salesRepData.commission;
-    
-    if (remainingToGoal <= 0) {
-      return {
-        message: "Congratulations! You've reached your goal. Keep pushing for the bonus tier!",
-        type: 'success' as const
-      };
-    } else if (remainingToGoal <= 3500) {
-      return {
-        message: `You're only ${salesRepData.currency}${remainingToGoal.toLocaleString()} away from reaching your goal!`,
-        type: 'info' as const
-      };
-    } else {
-      const nextDriver = commissionDrivers.find(driver => 
-        (driver.currentValue / driver.goal) < 0.9
-      );
-      
-      if (nextDriver) {
-        return {
-          message: `Focus on ${nextDriver.name} to boost your commission by ${salesRepData.currency}${nextDriver.nextCommission.toLocaleString()}!`,
-          type: 'warning' as const
-        };
-      }
-      
-      return {
-        message: `You're making good progress! Keep it up to reach your ${salesRepData.currency}${salesRepData.goal.toLocaleString()} goal.`,
-        type: 'info' as const
-      };
-    }
+    return remainingToGoal > 0 ? remainingToGoal : 0;
   };
-  
-  const motivationData = getMotivationMessage();
+
+  // Calculate total achievements
+  const totalAchievements = commissionDrivers.filter(driver => driver.badgeEarned).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ProfileHeader
-          name={salesRepData.name}
-          avatarUrl={salesRepData.avatarUrl}
-          selectedPeriod={period}
-          onPeriodChange={setPeriod}
-        />
+        <div className="flex justify-between items-start">
+          <ProfileHeader
+            name={salesRepData.name}
+            avatarUrl={salesRepData.avatarUrl}
+            selectedPeriod={period}
+            onPeriodChange={setPeriod}
+            level={salesRepData.level}
+            levelProgress={salesRepData.levelProgress}
+            nextLevel={salesRepData.nextLevel}
+          />
+          
+          <div className="hidden md:flex items-center space-x-2">
+            <Badge variant="outline" className="bg-commission-light border-commission-primary text-commission-primary px-3 py-1.5">
+              <Trophy className="h-4 w-4 mr-1" /> Level {salesRepData.levelProgress}%
+            </Badge>
+            <Badge variant="outline" className="bg-commission-light border-commission-primary text-commission-primary px-3 py-1.5">
+              <Award className="h-4 w-4 mr-1" /> {totalAchievements} Badges
+            </Badge>
+          </div>
+        </div>
         
-        <ProgressOverview
+        <CommissionSummary
           totalCommission={salesRepData.commission}
           goal={salesRepData.goal}
           currency={salesRepData.currency}
+          remainingToGoal={getRemainingToGoal()}
         />
         
-        <MotivationMessage
-          message={motivationData.message}
-          type={motivationData.type}
-        />
-        
-        <h2 className="text-xl font-bold mb-4">Commission Drivers</h2>
-        
-        <div className="space-y-6">
-          {commissionDrivers.map(driver => (
-            <CommissionDriver
-              key={driver.id}
-              name={driver.name}
-              currentValue={driver.currentValue}
-              goal={driver.goal}
-              commission={driver.commission}
-              nextThreshold={driver.nextThreshold}
-              nextCommission={driver.nextCommission}
-              currency={salesRepData.currency}
-              trend={driver.trend}
-              tip={driver.tip}
-            />
-          ))}
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Commission Drivers</h2>
+            <Badge className="bg-commission-primary">Earn badges!</Badge>
+          </div>
+          
+          <DriverCards 
+            drivers={commissionDrivers}
+            currency={salesRepData.currency}
+          />
         </div>
         
-        <h2 className="text-xl font-bold mb-4 mt-8">Penalties</h2>
-        <PenaltiesSection
-          penalties={penalties}
-          currency={salesRepData.currency}
+        <AchievementSection 
+          drivers={commissionDrivers}
+          level={salesRepData.level}
+          nextLevel={salesRepData.nextLevel}
+          levelProgress={salesRepData.levelProgress}
         />
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {penalties.length > 0 && (
+          <div className="mt-6">
+            <h2 className="text-xl font-bold mb-4 flex items-center">
+              <Flag className="h-5 w-5 mr-2 text-status-danger" />
+              Penalties
+            </h2>
+            <PenaltyBadges
+              penalties={penalties}
+              currency={salesRepData.currency}
+            />
+          </div>
+        )}
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           <div>
             <h2 className="text-xl font-bold mb-4">Simulation Tool</h2>
             <SimulationTool
