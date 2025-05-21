@@ -1,12 +1,13 @@
 
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Progress } from '@/components/ui/progress';
+import { Route } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface ProfileHeaderProps {
   name: string;
   avatarUrl: string;
+  routeNumber: string;
   selectedPeriod: string;
   onPeriodChange: (value: string) => void;
   level: string;
@@ -17,6 +18,7 @@ interface ProfileHeaderProps {
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   name,
   avatarUrl,
+  routeNumber,
   selectedPeriod,
   onPeriodChange,
   level,
@@ -39,13 +41,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       
       <div className="flex-1">
         <h1 className="text-2xl font-bold text-commission-dark">{name}</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Route className="h-4 w-4" />
+          <span>Route {routeNumber}</span>
+        </div>
+        <div className="flex items-center gap-2 mt-1">
           <span className="text-sm text-commission-primary font-medium">{level}</span>
           <div className="text-xs text-muted-foreground">→</div>
           <span className="text-xs text-muted-foreground">{nextLevel}</span>
-        </div>
-        <div className="w-full max-w-[180px] mt-1">
-          <Progress value={levelProgress} className="h-1.5" />
         </div>
       </div>
       

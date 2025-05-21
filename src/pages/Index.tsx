@@ -7,6 +7,8 @@ import PenaltyBadges from '@/components/PenaltyBadges';
 import AchievementSection from '@/components/AchievementSection';
 import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
+import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
+import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import { Badge } from "@/components/ui/badge";
 import { Award, Trophy, Flag } from 'lucide-react';
 
@@ -17,12 +19,30 @@ const Index = () => {
   const salesRepData = {
     name: 'Maria Rodriguez',
     avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
+    routeNumber: '42',
     commission: 42500,
     goal: 50000,
     currency: 'Q',
     level: 'Silver Seller',
     nextLevel: 'Gold Seller',
     levelProgress: 85,
+  };
+  
+  // Weekly commission data
+  const weeklyCommissionData = {
+    dateRange: 'May 19, 2025 – May 25, 2025',
+    commission: 3250,
+  };
+  
+  // Growth by volume data
+  const growthVolumeData = {
+    totalSales: 135000,
+    growthPercentage: 15,
+    growthTarget: 150000, // Target representing 13% growth
+    targetGrowthPercentage: 13,
+    currentMonthSales: 28500,
+    remainingSalesNeeded: 15000,
+    commissionEarned: 1500, // 1000 + (2 * 250) for 2% above target
   };
   
   const commissionDrivers = [
@@ -135,6 +155,7 @@ const Index = () => {
           <ProfileHeader
             name={salesRepData.name}
             avatarUrl={salesRepData.avatarUrl}
+            routeNumber={salesRepData.routeNumber}
             selectedPeriod={period}
             onPeriodChange={setPeriod}
             level={salesRepData.level}
@@ -150,6 +171,29 @@ const Index = () => {
               <Award className="h-4 w-4 mr-1" /> {totalAchievements} Badges
             </Badge>
           </div>
+        </div>
+        
+        {/* Weekly Commission Summary */}
+        <div className="mt-6">
+          <WeeklyCommissionSummary
+            dateRange={weeklyCommissionData.dateRange}
+            commission={weeklyCommissionData.commission}
+            currency={salesRepData.currency}
+          />
+        </div>
+        
+        {/* Growth by Volume Card */}
+        <div className="mt-6">
+          <GrowthByVolumeCard
+            totalSales={growthVolumeData.totalSales}
+            growthPercentage={growthVolumeData.growthPercentage}
+            growthTarget={growthVolumeData.growthTarget}
+            targetGrowthPercentage={growthVolumeData.targetGrowthPercentage}
+            currentMonthSales={growthVolumeData.currentMonthSales}
+            remainingSalesNeeded={growthVolumeData.remainingSalesNeeded}
+            commissionEarned={growthVolumeData.commissionEarned}
+            currency={salesRepData.currency}
+          />
         </div>
         
         <CommissionSummary
