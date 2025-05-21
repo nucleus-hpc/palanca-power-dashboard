@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Award, Trophy, Flag } from 'lucide-react';
-import { Badge } from "@/components/ui/badge";
 import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
 import DriverCards from '@/components/DriverCards';
@@ -11,6 +9,7 @@ import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
+import { Flag } from 'lucide-react';
 import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
 
 interface MainDashboardProps {
@@ -77,36 +76,18 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   period,
   setPeriod
 }) => {
-  // Calculate total achievements
-  const totalAchievements = commissionDrivers.filter(driver => driver.badgeEarned).length;
-  
   // Calculate remaining to next milestone
   const remainingToGoal = getRemainingToGoal(salesRepData.commission, salesRepData.goal);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-start">
-          <ProfileHeader
-            name={salesRepData.name}
-            avatarUrl={salesRepData.avatarUrl}
-            routeNumber={salesRepData.routeNumber}
-            selectedPeriod={period}
-            onPeriodChange={setPeriod}
-            level={salesRepData.level}
-            levelProgress={salesRepData.levelProgress}
-            nextLevel={salesRepData.nextLevel}
-          />
-          
-          <div className="hidden md:flex items-center space-x-2">
-            <Badge variant="outline" className="bg-commission-light border-commission-primary text-commission-primary px-3 py-1.5">
-              <Trophy className="h-4 w-4 mr-1" /> Level {salesRepData.levelProgress}%
-            </Badge>
-            <Badge variant="outline" className="bg-commission-light border-commission-primary text-commission-primary px-3 py-1.5">
-              <Award className="h-4 w-4 mr-1" /> {totalAchievements} Badges
-            </Badge>
-          </div>
-        </div>
+        <ProfileHeader
+          name={salesRepData.name}
+          routeNumber={salesRepData.routeNumber}
+          selectedPeriod={period}
+          onPeriodChange={setPeriod}
+        />
         
         {/* Weekly Commission Summary */}
         <div className="mt-6">
@@ -141,7 +122,6 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">Commission Drivers</h2>
-            <Badge className="bg-commission-primary">Earn badges!</Badge>
           </div>
           
           <DriverCards 
@@ -149,13 +129,6 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             currency={salesRepData.currency}
           />
         </div>
-        
-        <AchievementSection 
-          drivers={commissionDrivers}
-          level={salesRepData.level}
-          nextLevel={salesRepData.nextLevel}
-          levelProgress={salesRepData.levelProgress}
-        />
         
         {penalties.length > 0 && (
           <div className="mt-6">
