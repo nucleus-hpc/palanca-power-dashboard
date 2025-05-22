@@ -39,6 +39,8 @@ export const es = {
     calculate: "Calcular",
     more: "más",
     noData: "Sin datos",
+    ofTarget: "del objetivo",
+    toGoal: "para alcanzar meta",
   },
 
   // Headers and section titles
@@ -87,6 +89,7 @@ export const es = {
     // Achievement Section
     currentLevel: "Nivel Actual",
     progressTo: "Progreso hacia",
+    nextLevel: "Siguiente Nivel",
     earned: "Ganado",
     locked: "Bloqueado",
 
