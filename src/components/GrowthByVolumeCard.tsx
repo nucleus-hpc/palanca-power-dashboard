@@ -142,10 +142,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           </div>
           
           {/* Commission earned with shield icon */}
-          <div className={`p-4 rounded-lg flex items-center dark:highlighted-card
-            ${commissionEarned > 0 
-              ? 'bg-commission-light border border-commission-primary/30 dark:border-commission-primary/20' 
-              : 'bg-gray-50'}`}>
+          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card border border-commission-primary/30 dark:border-commission-primary/20">
             <div className={`p-2 rounded-full mr-3 
               ${commissionEarned > 0 
                 ? 'bg-commission-primary/20' 

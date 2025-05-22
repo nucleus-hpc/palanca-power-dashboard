@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -78,12 +77,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
         </div>
         
         {/* Commission earned section */}
-        <div 
-          className={`p-4 rounded-lg flex items-center dark:highlighted-card
-            ${hasCommissionEarned 
-              ? 'bg-commission-light border border-commission-primary/30 dark:border-commission-primary/20' 
-              : 'bg-gray-50'}`}
-        >
+        <div className="p-4 rounded-lg flex items-center bg-gray-50 dark:highlighted-card border border-commission-primary/30 dark:border-commission-primary/20">
           <div 
             className={`p-2 rounded-full mr-3
               ${hasCommissionEarned 

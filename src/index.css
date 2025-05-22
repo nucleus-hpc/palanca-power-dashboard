@@ -101,7 +101,15 @@
   }
 }
 
-/* Add custom CSS for highlighted card backgrounds in dark mode */
+/* Improved CSS for highlighted card backgrounds in dark mode with higher specificity */
 .dark .highlighted-card {
   background-color: #565367 !important;
 }
+
+/* Ensure that no other styles override the highlighted-card in dark mode */
+.dark [class*="bg-gray-50"].highlighted-card,
+.dark [class*="bg-commission-light"].highlighted-card,
+.dark [class*="bg-gray-100"].highlighted-card {
+  background-color: #565367 !important;
+}
+
