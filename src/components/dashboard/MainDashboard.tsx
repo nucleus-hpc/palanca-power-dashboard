@@ -12,6 +12,7 @@ import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
 import { Flag } from 'lucide-react';
 import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 interface MainDashboardProps {
   salesRepData: {
@@ -87,14 +88,17 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   const remainingToGoal = getRemainingToGoal(salesRepData.commission, salesRepData.goal);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-background to-background/80 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ProfileHeader
-          name={salesRepData.name}
-          routeNumber={salesRepData.routeNumber}
-          selectedPeriod={period}
-          onPeriodChange={setPeriod}
-        />
+        <div className="flex justify-between items-center mb-6">
+          <ProfileHeader
+            name={salesRepData.name}
+            routeNumber={salesRepData.routeNumber}
+            selectedPeriod={period}
+            onPeriodChange={setPeriod}
+          />
+          <ThemeToggle />
+        </div>
         
         {/* Weekly Commission Summary */}
         <div className="mt-6">
