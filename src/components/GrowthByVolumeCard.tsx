@@ -45,38 +45,46 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
     const reward = 250;
     return { marker, position, unlocked, reward };
   });
+  
+  // Format numbers with two decimal places
+  const formatCurrency = (value: number) => {
+    return value.toLocaleString('es-GT', { 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
+    });
+  };
 
   return (
-    <Card className="mb-6 overflow-hidden">
+    <Card className="mb-6 overflow-hidden rounded-xl shadow-lg">
       <div className="h-1 bg-commission-primary"></div>
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-4">
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between mb-6">
           <h2 className="font-bold text-lg flex items-center">
-            <TrendingUp className="h-5 w-5 mr-2 text-commission-primary" />
+            <TrendingUp className="h-5 w-5 mr-3 text-commission-primary" />
             {t.headers.growthByVolume}
           </h2>
         </div>
         
         {/* Primary highlight - Total Sales */}
-        <div className="mb-4 p-3 rounded-lg bg-gray-50 dark:highlighted-card">
+        <div className="mb-6 p-4 rounded-xl bg-gray-50 dark:highlighted-card shadow-sm">
           <div className="text-sm text-muted-foreground">{t.content.totalSalesQuarter}</div>
           <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
-            {currency}{totalSales.toLocaleString()}
+            {currency}{formatCurrency(totalSales)}
           </div>
-          <div className={`flex items-center text-sm font-medium mt-1 
+          <div className={`flex items-center text-sm font-medium mt-2 
             ${isGrowthPositive ? 'text-status-success' : 'text-status-danger'}`}>
             {isGrowthPositive ? '+' : ''}{growthPercentage}% {t.common.growth}
           </div>
         </div>
         
         {/* Enhanced Progress Bar */}
-        <div className="mt-5 mb-6">
-          <div className="text-sm text-muted-foreground mb-2 flex justify-between">
+        <div className="my-8">
+          <div className="text-sm text-muted-foreground mb-3 flex justify-between">
             <span>{t.content.currentProgress}</span>
             <span className="font-medium">{t.content.targetGrowth} {targetGrowthPercentage}%</span>
           </div>
           
-          <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden mb-6">
+          <div className="relative h-10 bg-gray-100 rounded-full overflow-hidden mb-8 shadow-inner">
             <div 
               className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-commission-primary'}`}
               style={{ width: `${progressPercentage}%`, transition: 'width 1s ease-in-out' }}
@@ -89,7 +97,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             >
               <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-commission-dark"></div>
               <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
-                {targetGrowthPercentage}% → {currency}1,000
+                {targetGrowthPercentage}% → {currency}1,000.00
               </div>
             </div>
             
@@ -105,7 +113,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
                     ${marker.unlocked ? 'border-status-success' : 'border-status-neutral'}`}>
                 </div>
                 <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
-                  {marker.marker}% → +{currency}{marker.reward}
+                  {marker.marker}% → +{currency}{formatCurrency(marker.reward)}
                 </div>
               </div>
             ))}
@@ -113,40 +121,40 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
         
         {/* Data points with icons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
-            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
+            <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
               <Target className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t.content.growthTarget} ({targetGrowthPercentage}%)</div>
-              <div className="font-bold">{currency}{growthTarget.toLocaleString()}</div>
+              <div className="font-bold">{currency}{formatCurrency(growthTarget)}</div>
             </div>
           </div>
           
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
-            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
+          <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
+            <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
               <CalendarDays className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t.content.currentMonthSales}</div>
-              <div className="font-bold">{currency}{currentMonthSales.toLocaleString()}</div>
+              <div className="font-bold">{currency}{formatCurrency(currentMonthSales)}</div>
             </div>
           </div>
           
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
-            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
+          <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
+            <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
               <ArrowRight className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t.content.remainingNeeded}</div>
-              <div className="font-bold">{currency}{remainingSalesNeeded.toLocaleString()}</div>
+              <div className="font-bold">{currency}{formatCurrency(remainingSalesNeeded)}</div>
             </div>
           </div>
           
           {/* Commission earned with shield icon */}
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card border border-commission-primary/30 dark:border-commission-primary/20">
-            <div className={`p-2 rounded-full mr-3 
+          <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card border border-commission-primary/30 dark:border-commission-primary/20 shadow-sm">
+            <div className={`p-3 rounded-full mr-4 
               ${commissionEarned > 0 
                 ? 'bg-commission-primary/20' 
                 : 'bg-status-neutral dark:bg-gray-700'}`}>
@@ -161,7 +169,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
                 ${commissionEarned > 0 
                   ? 'text-commission-primary' 
                   : 'text-status-neutral'}`}>
-                {currency}{commissionEarned.toLocaleString()}
+                {currency}{formatCurrency(commissionEarned)}
               </div>
             </div>
           </div>

@@ -44,18 +44,26 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
     if (currentRatio < worstRatio) worstPeriod = period;
   });
 
+  // Format numbers with two decimal places
+  const formatCurrency = (value: number) => {
+    return value.toLocaleString('es-GT', { 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
+    });
+  };
+
   return (
-    <Card className="mb-6">
-      <CardHeader className="pb-2">
+    <Card className="mb-6 rounded-xl shadow-lg">
+      <CardHeader className="pb-2 px-6 pt-6">
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg font-medium">{t.headers.historicalPerformance}</CardTitle>
           <div className="flex gap-2">
-            <Badge className="bg-blue-500">{t.common.actual}</Badge>
-            <Badge variant="outline" className="border-amber-500 text-amber-500">{t.common.target}</Badge>
+            <Badge className="bg-blue-500 py-1 px-3">{t.common.actual}</Badge>
+            <Badge variant="outline" className="border-amber-500 text-amber-500 py-1 px-3">{t.common.target}</Badge>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-6 pb-6">
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -71,7 +79,7 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
               <XAxis dataKey="period" />
               <YAxis />
               <Tooltip 
-                formatter={(value) => [`${currency}${Number(value).toLocaleString()}`, '']} 
+                formatter={(value) => [`${currency}${formatCurrency(Number(value))}`, '']} 
                 labelFormatter={(label) => `${t.content.period}: ${label}`} 
               />
               <Legend />
@@ -81,18 +89,18 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
           </ResponsiveContainer>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          <div className="p-3 bg-green-50 rounded-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+          <div className="p-4 bg-green-50 rounded-xl shadow-sm">
             <span className="text-xs font-medium text-green-700 block mb-1">{t.content.bestPerformance}</span>
             <span className="text-sm font-medium">
-              {bestPeriod.period}: {currency}{bestPeriod.actual.toLocaleString()} 
+              {bestPeriod.period}: {currency}{formatCurrency(bestPeriod.actual)} 
               ({Math.round((bestPeriod.actual / bestPeriod.target) * 100)}% {t.common.ofTarget})
             </span>
           </div>
-          <div className="p-3 bg-amber-50 rounded-lg">
+          <div className="p-4 bg-amber-50 rounded-xl shadow-sm">
             <span className="text-xs font-medium text-amber-700 block mb-1">{t.content.areaForImprovement}</span>
             <span className="text-sm font-medium">
-              {worstPeriod.period}: {currency}{worstPeriod.actual.toLocaleString()} 
+              {worstPeriod.period}: {currency}{formatCurrency(worstPeriod.actual)} 
               ({Math.round((worstPeriod.actual / worstPeriod.target) * 100)}% {t.common.ofTarget})
             </span>
           </div>
