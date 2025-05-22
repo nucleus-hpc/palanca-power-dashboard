@@ -131,7 +131,7 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
                 <Line 
                   type="monotone" 
                   dataKey="value" 
-                  stroke="#9b87f5" 
+                  stroke="#F26724" 
                   strokeWidth={2} 
                   dot={{ r: 4 }} 
                   activeDot={{ r: 6 }} 

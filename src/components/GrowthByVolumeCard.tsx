@@ -58,11 +58,11 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         {/* Primary highlight - Total Sales */}
         <div className="mb-4 p-3 rounded-lg bg-gray-50">
           <div className="text-sm text-muted-foreground">Total Sales this Quarter</div>
-          <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-green-600' : 'text-status-danger'}`}>
+          <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{totalSales.toLocaleString()}
           </div>
           <div className={`flex items-center text-sm font-medium mt-1 
-            ${isGrowthPositive ? 'text-green-600' : 'text-status-danger'}`}>
+            ${isGrowthPositive ? 'text-status-success' : 'text-status-danger'}`}>
             {isGrowthPositive ? '+' : ''}{growthPercentage}% Growth
           </div>
         </div>
@@ -76,16 +76,16 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           
           <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden mb-6">
             <div 
-              className={`h-full ${hasReachedTarget ? 'bg-green-500' : 'bg-commission-primary'}`}
+              className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-commission-primary'}`}
               style={{ width: `${progressPercentage}%`, transition: 'width 1s ease-in-out' }}
             ></div>
             
             {/* Target marker - Initial milestone */}
             <div 
-              className="absolute top-0 h-full w-0.5 bg-gray-800" 
+              className="absolute top-0 h-full w-0.5 bg-commission-dark" 
               style={{ left: `${targetProgressPosition}%` }}
             >
-              <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-gray-800"></div>
+              <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-commission-dark"></div>
               <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
                 {targetGrowthPercentage}% → {currency}1,000
               </div>
@@ -95,12 +95,12 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             {additionalMarkers.map((marker, index) => (
               <div 
                 key={index}
-                className={`absolute top-0 h-full w-0.5 ${marker.unlocked ? 'bg-green-500' : 'bg-gray-400'}`}
+                className={`absolute top-0 h-full w-0.5 ${marker.unlocked ? 'bg-status-success' : 'bg-status-neutral'}`}
                 style={{ left: `${marker.position}%` }}
               >
                 <div 
                   className={`absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 
-                    ${marker.unlocked ? 'border-green-500' : 'border-gray-400'}`}>
+                    ${marker.unlocked ? 'border-status-success' : 'border-status-neutral'}`}>
                 </div>
                 <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
                   {marker.marker}% → +{currency}{marker.reward}
@@ -150,18 +150,18 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             <div className={`p-2 rounded-full mr-3 
               ${commissionEarned > 0 
                 ? 'bg-commission-primary/20' 
-                : 'bg-gray-100'}`}>
+                : 'bg-status-neutral'}`}>
               <Shield className={`h-5 w-5 
                 ${commissionEarned > 0 
                   ? 'text-commission-primary' 
-                  : 'text-gray-400'}`} />
+                  : 'text-status-neutral'}`} />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Commission Earned</div>
               <div className={`font-bold text-lg 
                 ${commissionEarned > 0 
                   ? 'text-commission-primary' 
-                  : 'text-gray-400'}`}>
+                  : 'text-status-neutral'}`}>
                 {currency}{commissionEarned.toLocaleString()}
               </div>
             </div>

@@ -64,15 +64,16 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				status: {
-					success: '#4ade80',
-					warning: '#fcd34d',
-					danger: '#ea384c'
+					success: '#10B981', // Updated to new green
+					warning: '#fcd34d', // Kept amber warning
+					danger: '#F43F5E',  // Updated to new red
+					neutral: '#E0DEE5'  // Added neutral/disabled state
 				},
 				commission: {
-					primary: '#9b87f5',
-					secondary: '#7E69AB',
-					dark: '#1A1F2C',
-					light: '#F1F0FB'
+					primary: '#F26724',    // Updated to vibrant orange
+					secondary: '#24AFF2',  // Updated to light blue
+					dark: '#1D1934',       // Updated to deep indigo
+					light: '#F8F7FA'       // Lighter shade for backgrounds
 				}
 			},
 			borderRadius: {

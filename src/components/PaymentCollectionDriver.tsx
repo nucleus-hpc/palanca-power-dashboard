@@ -42,7 +42,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
         <div className="mb-6">
           <div className="flex justify-between text-sm mb-2">
             <span>
-              <BadgeCheck className="h-4 w-4 inline mr-1 text-green-500" />
+              <BadgeCheck className="h-4 w-4 inline mr-1 text-status-success" />
               <span className="font-medium">{paymentsCollected} of {totalPayments} payments collected</span>
             </span>
             <span className="text-muted-foreground">{progressPercentage}% complete</span>
@@ -51,7 +51,6 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
           <Progress 
             value={progressPercentage} 
             className="h-3"
-            // Apply green gradient for the filled part when there's progress
             style={{
               background: 'linear-gradient(to right, #e5e7eb, #e5e7eb)',
             }}
@@ -66,7 +65,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
                   <div 
                     key={index} 
                     className={`h-3 w-3 rounded-full flex items-center justify-center
-                      ${isCollected ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+                      ${isCollected ? 'bg-status-success text-white' : 'bg-status-neutral'}`}
                   >
                     {isCollected && (
                       <BadgeCheck className="h-2 w-2 text-white" />
@@ -89,13 +88,13 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             className={`p-2 rounded-full mr-3
               ${hasCommissionEarned 
                 ? 'bg-commission-primary/20' 
-                : 'bg-gray-100'}`}
+                : 'bg-status-neutral/50'}`}
           >
             <CreditCard 
               className={`h-5 w-5
                 ${hasCommissionEarned 
                   ? 'text-commission-primary' 
-                  : 'text-gray-400'}`} 
+                  : 'text-status-neutral'}`} 
             />
           </div>
           <div>
@@ -104,7 +103,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
               className={`font-bold text-lg
                 ${hasCommissionEarned 
                   ? 'text-commission-primary' 
-                  : 'text-gray-400'}`}
+                  : 'text-status-neutral'}`}
             >
               {currency}{commissionEarned.toLocaleString()}
               {hasCommissionEarned && (

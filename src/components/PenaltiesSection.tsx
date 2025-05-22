@@ -21,11 +21,11 @@ const PenaltiesSection: React.FC<PenaltiesSectionProps> = ({ penalties, currency
       <Card className="mb-6 border-dashed border-green-200 bg-green-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-medium flex items-center">
-            <span className="text-green-600">No Penalties</span>
+            <span className="text-status-success">No Penalties</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-green-600">
+          <p className="text-sm text-status-success">
             Great job! You don't have any penalties for this period.
           </p>
         </CardContent>

@@ -35,7 +35,7 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
 
   return (
     <Card className="mt-6 overflow-hidden border-0 shadow-lg">
-      <div className={`h-2 ${isGoalReached ? 'bg-gradient-to-r from-green-400 to-green-600' : 'bg-gradient-to-r from-commission-primary to-purple-600'}`}></div>
+      <div className={`h-2 ${isGoalReached ? 'bg-gradient-to-r from-status-success to-green-600' : 'bg-gradient-to-r from-commission-primary to-commission-secondary'}`}></div>
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg">

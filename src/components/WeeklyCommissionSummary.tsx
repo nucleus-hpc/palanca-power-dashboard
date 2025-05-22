@@ -25,7 +25,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
         </div>
         <div className="flex flex-col">
           <h2 className="text-sm font-medium text-muted-foreground">Weekly Commission</h2>
-          <div className={`text-3xl font-bold ${isPositive ? 'text-green-600' : 'text-status-danger'}`}>
+          <div className={`text-3xl font-bold ${isPositive ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{commission.toLocaleString()}
           </div>
         </div>

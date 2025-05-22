@@ -55,7 +55,7 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
                 <h3 className="font-medium">{driver.name}</h3>
               </div>
               {driver.badgeEarned && (
-                <Badge className="bg-yellow-500">
+                <Badge className="bg-commission-primary">
                   <Star className="h-3 w-3 mr-1" /> Badge
                 </Badge>
               )}
