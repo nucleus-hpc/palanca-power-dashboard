@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface Penalty {
   id: number;
@@ -17,6 +18,7 @@ interface PenaltyBadgesProps {
 }
 
 const PenaltyBadges: React.FC<PenaltyBadgesProps> = ({ penalties, currency }) => {
+  const { t } = useLanguage();
   const totalPenalties = penalties.reduce((total, penalty) => total + penalty.amount, 0);
 
   return (
@@ -35,7 +37,7 @@ const PenaltyBadges: React.FC<PenaltyBadgesProps> = ({ penalties, currency }) =>
           ))}
           
           <Badge className="bg-status-danger text-white px-3 py-2">
-            Total: -{currency}{totalPenalties}
+            {t.common.total}: -{currency}{totalPenalties}
           </Badge>
         </div>
       </CardContent>

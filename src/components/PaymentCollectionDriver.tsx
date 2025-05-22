@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { BadgeCheck, Calendar, CreditCard } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface PaymentCollectionDriverProps {
   totalPayments: number;
@@ -16,6 +18,8 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
   commissionEarned,
   currency
 }) => {
+  const { t } = useLanguage();
+  
   // Calculate progress percentage
   const progressPercentage = Math.round((paymentsCollected / totalPayments) * 100) || 0;
   
@@ -28,12 +32,12 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg flex items-center">
             <CreditCard className="h-5 w-5 mr-2 text-commission-primary" />
-            Payment Collection Driver
+            {t.headers.paymentCollection}
           </h2>
           
           <div className="flex items-center text-sm text-muted-foreground">
             <Calendar className="h-4 w-4 mr-1" />
-            <span>This week</span>
+            <span>{t.content.thisWeek}</span>
           </div>
         </div>
         
@@ -42,9 +46,9 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
           <div className="flex justify-between text-sm mb-2">
             <span>
               <BadgeCheck className="h-4 w-4 inline mr-1 text-status-success" />
-              <span className="font-medium">{paymentsCollected} of {totalPayments} payments collected</span>
+              <span className="font-medium">{paymentsCollected} {t.content.ofPayments} {totalPayments} {t.common.payments.toLowerCase()} {t.common.collected.toLowerCase()}</span>
             </span>
-            <span className="text-muted-foreground">{progressPercentage}% complete</span>
+            <span className="text-muted-foreground">{progressPercentage}% {t.common.complete.toLowerCase()}</span>
           </div>
           
           <Progress 
@@ -92,7 +96,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             />
           </div>
           <div>
-            <div className="text-sm text-muted-foreground">Commission Earned (Cobros)</div>
+            <div className="text-sm text-muted-foreground">{t.content.commissionEarned} (Cobros)</div>
             <div 
               className={`font-bold text-lg
                 ${hasCommissionEarned 
@@ -102,7 +106,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
               {currency}{commissionEarned.toLocaleString()}
               {hasCommissionEarned && (
                 <span className="ml-2 text-xs bg-commission-primary/10 text-commission-primary px-2 py-0.5 rounded-full dark:bg-commission-primary/20">
-                  0.5% per collection
+                  0.5% {t.content.perCollection}
                 </span>
               )}
             </div>

@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { CircleCheck, CircleX } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface CommissionSummaryProps {
   totalCommission: number;
@@ -19,6 +20,7 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
   currency,
   remainingToGoal
 }) => {
+  const { t } = useLanguage();
   const progress = Math.min(Math.round((totalCommission / goal) * 100), 100);
   const isGoalReached = progress >= 100;
   
@@ -39,16 +41,16 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg dark:highlighted-card">
-            <span className="text-sm text-muted-foreground">Total Commission</span>
+            <span className="text-sm text-muted-foreground">{t.content.totalCommission}</span>
             <span className="text-3xl font-bold text-commission-dark dark:text-white mt-1">{currency}{totalCommission.toLocaleString()}</span>
-            <Badge className="mt-2 bg-commission-primary">{progress}% of Goal</Badge>
+            <Badge className="mt-2 bg-commission-primary">{progress}% {t.common.ofTarget}</span>
           </div>
           
           <div className="flex flex-col justify-center">
             <div className="relative w-full">
               <Progress value={progress} className="h-6 bg-gray-200 dark:bg-gray-700" />
               <div className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white">
-                {isGoalReached ? 'Goal Completed! 🎉' : `${progress}% to Goal`}
+                {isGoalReached ? t.content.goalCompleted : `${progress}% ${t.common.toGoal}`}
               </div>
             </div>
             
@@ -56,27 +58,27 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
               {isGoalReached ? (
                 <div className="flex items-center justify-center text-status-success gap-1">
                   <CircleCheck className="h-4 w-4" /> 
-                  <span>Goal reached! Aim for bonus tier!</span>
+                  <span>{t.content.goalReached}!</span>
                 </div>
               ) : (
                 <div className="text-commission-dark dark:text-white">
-                  <span className="font-medium">{currency}{remainingToGoal.toLocaleString()}</span> more to reach goal
+                  <span className="font-medium">{currency}{remainingToGoal.toLocaleString()}</span> {t.content.toGoal}
                 </div>
               )}
             </div>
           </div>
           
           <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg dark:highlighted-card">
-            <span className="text-sm text-muted-foreground">Period Goal</span>
+            <span className="text-sm text-muted-foreground">{t.content.periodGoal}</span>
             <span className="text-3xl font-bold text-commission-dark dark:text-white mt-1">{currency}{goal.toLocaleString()}</span>
             <Badge variant="outline" className="mt-2 border-commission-primary text-commission-primary dark:border-commission-primary/50">
               {isGoalReached ? (
                 <span className="flex items-center gap-1">
-                  <CircleCheck className="h-4 w-4" /> Achieved!
+                  <CircleCheck className="h-4 w-4" /> {t.content.achieved}
                 </span>
               ) : (
                 <span className="flex items-center gap-1">
-                  <CircleX className="h-4 w-4" /> Not Yet
+                  <CircleX className="h-4 w-4" /> {t.content.notYet}
                 </span>
               )}
             </Badge>

@@ -13,6 +13,7 @@ import HistoricalPerformance from '@/components/HistoricalPerformance';
 import { Flag } from 'lucide-react';
 import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface MainDashboardProps {
   salesRepData: {
@@ -84,6 +85,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   period,
   setPeriod
 }) => {
+  const { t } = useLanguage();
+  
   // Calculate remaining to next milestone
   const remainingToGoal = getRemainingToGoal(salesRepData.commission, salesRepData.goal);
 
@@ -142,7 +145,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">Commission Drivers</h2>
+            <h2 className="text-xl font-bold">{t.headers.commissionDrivers}</h2>
           </div>
           
           <DriverCards 
@@ -155,7 +158,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           <div className="mt-6">
             <h2 className="text-xl font-bold mb-4 flex items-center">
               <Flag className="h-5 w-5 mr-2 text-status-danger" />
-              Penalties
+              {t.common.penalties}
             </h2>
             <PenaltyBadges
               penalties={penalties}
@@ -166,7 +169,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           <div>
-            <h2 className="text-xl font-bold mb-4">Simulation Tool</h2>
+            <h2 className="text-xl font-bold mb-4">{t.headers.commissionSimulator}</h2>
             <SimulationTool
               currency={salesRepData.currency}
               currentCommission={salesRepData.commission}
@@ -175,7 +178,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           </div>
           
           <div>
-            <h2 className="text-xl font-bold mb-4">Performance History</h2>
+            <h2 className="text-xl font-bold mb-4">{t.headers.performanceHistory}</h2>
             <HistoricalPerformance
               historicalData={historicalData}
               currency={salesRepData.currency}

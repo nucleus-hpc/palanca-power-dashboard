@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface MotivationMessageProps {
   message: string;

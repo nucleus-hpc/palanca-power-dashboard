@@ -5,6 +5,7 @@ import { CircleCheck, Star, TrendingUp, Flag } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface Driver {
   id: number;
@@ -26,6 +27,8 @@ interface DriverCardsProps {
 }
 
 const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
+  const { t } = useLanguage();
+  
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'trending-up': return <TrendingUp className="h-5 w-5" />;
@@ -56,14 +59,14 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
               </div>
               {driver.badgeEarned && (
                 <Badge className="bg-commission-primary">
-                  <Star className="h-3 w-3 mr-1" /> Badge
+                  <Star className="h-3 w-3 mr-1" /> {t.common.badges}
                 </Badge>
               )}
             </div>
             
             <div className="mt-4">
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">Progress</span>
+                <span className="font-medium">{t.common.progress}</span>
                 <span className={`${getStatusClass(driver.progress)}`}>{driver.progress}%</span>
               </div>
               <Progress value={driver.progress} className="h-2" />
@@ -71,18 +74,18 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
             
             <div className="grid grid-cols-2 gap-2 mt-4">
               <div className="rounded-lg bg-gray-50 p-2 text-center dark:highlighted-card">
-                <div className="text-xs text-muted-foreground">Current</div>
+                <div className="text-xs text-muted-foreground">{t.common.current}</div>
                 <div className="font-semibold">{typeof driver.currentValue === 'number' && driver.currentValue % 1 === 0 ? driver.currentValue : `${currency}${driver.currentValue.toLocaleString()}`}</div>
               </div>
               <div className="rounded-lg bg-gray-50 p-2 text-center dark:highlighted-card">
-                <div className="text-xs text-muted-foreground">Goal</div>
+                <div className="text-xs text-muted-foreground">{t.common.goal}</div>
                 <div className="font-semibold">{typeof driver.goal === 'number' && driver.goal % 1 === 0 ? driver.goal : `${currency}${driver.goal.toLocaleString()}`}</div>
               </div>
             </div>
             
             <div className="mt-3 bg-commission-light rounded-lg p-2">
               <div className="text-xs text-center">
-                Earned: <span className="font-bold text-commission-primary">{currency}{driver.commission.toLocaleString()}</span>
+                {t.common.earned}: <span className="font-bold text-commission-primary">{currency}{driver.commission.toLocaleString()}</span>
               </div>
             </div>
             
@@ -91,8 +94,8 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
                 <TooltipTrigger className="w-full">
                   <div className="mt-2 text-center text-xs bg-gray-100 rounded-full py-1 px-2 text-gray-600 hover:bg-gray-200 transition-colors">
                     {typeof driver.nextThreshold === 'number' && driver.nextThreshold % 1 === 0 
-                      ? `Reach ${driver.nextThreshold} to earn +${currency}${driver.nextCommission}` 
-                      : `Reach ${currency}${driver.nextThreshold.toLocaleString()} to earn +${currency}${driver.nextCommission}`}
+                      ? `${t.content.reachToEarn} ${driver.nextThreshold} ${t.content.toEarn} +${currency}${driver.nextCommission}` 
+                      : `${t.content.reachToEarn} ${currency}${driver.nextThreshold.toLocaleString()} ${t.content.toEarn} +${currency}${driver.nextCommission}`}
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>

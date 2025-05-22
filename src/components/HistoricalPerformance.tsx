@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface HistoricalData {
   period: string;
@@ -28,6 +29,8 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
   historicalData,
   currency
 }) => {
+  const { t } = useLanguage();
+  
   // Find best and worst periods
   let bestPeriod = historicalData[0];
   let worstPeriod = historicalData[0];
@@ -45,10 +48,10 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
     <Card className="mb-6">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-lg font-medium">Historical Performance</CardTitle>
+          <CardTitle className="text-lg font-medium">{t.headers.historicalPerformance}</CardTitle>
           <div className="flex gap-2">
-            <Badge className="bg-blue-500">Actual</Badge>
-            <Badge variant="outline" className="border-amber-500 text-amber-500">Target</Badge>
+            <Badge className="bg-blue-500">{t.common.actual}</Badge>
+            <Badge variant="outline" className="border-amber-500 text-amber-500">{t.common.target}</Badge>
           </div>
         </div>
       </CardHeader>
@@ -69,28 +72,28 @@ const HistoricalPerformance: React.FC<HistoricalPerformanceProps> = ({
               <YAxis />
               <Tooltip 
                 formatter={(value) => [`${currency}${Number(value).toLocaleString()}`, '']} 
-                labelFormatter={(label) => `Period: ${label}`} 
+                labelFormatter={(label) => `${t.content.period}: ${label}`} 
               />
               <Legend />
-              <Bar dataKey="actual" name="Actual" fill="#9b87f5" />
-              <Bar dataKey="target" name="Target" fill="#fcd34d" />
+              <Bar dataKey="actual" name={t.common.actual} fill="#9b87f5" />
+              <Bar dataKey="target" name={t.common.target} fill="#fcd34d" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div className="p-3 bg-green-50 rounded-lg">
-            <span className="text-xs font-medium text-green-700 block mb-1">Best Performance</span>
+            <span className="text-xs font-medium text-green-700 block mb-1">{t.content.bestPerformance}</span>
             <span className="text-sm font-medium">
               {bestPeriod.period}: {currency}{bestPeriod.actual.toLocaleString()} 
-              ({Math.round((bestPeriod.actual / bestPeriod.target) * 100)}% of target)
+              ({Math.round((bestPeriod.actual / bestPeriod.target) * 100)}% {t.common.ofTarget})
             </span>
           </div>
           <div className="p-3 bg-amber-50 rounded-lg">
-            <span className="text-xs font-medium text-amber-700 block mb-1">Area for Improvement</span>
+            <span className="text-xs font-medium text-amber-700 block mb-1">{t.content.areaForImprovement}</span>
             <span className="text-sm font-medium">
               {worstPeriod.period}: {currency}{worstPeriod.actual.toLocaleString()} 
-              ({Math.round((worstPeriod.actual / worstPeriod.target) * 100)}% of target)
+              ({Math.round((worstPeriod.actual / worstPeriod.target) * 100)}% {t.common.ofTarget})
             </span>
           </div>
         </div>

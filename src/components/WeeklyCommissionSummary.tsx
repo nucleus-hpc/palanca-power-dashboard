@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface WeeklyCommissionSummaryProps {
   dateRange: string;
@@ -14,6 +15,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
   commission, 
   currency 
 }) => {
+  const { t } = useLanguage();
   const isPositive = commission > 0;
 
   return (
@@ -24,7 +26,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
           <span>{dateRange}</span>
         </div>
         <div className="flex flex-col">
-          <h2 className="text-sm font-medium text-muted-foreground">Weekly Commission</h2>
+          <h2 className="text-sm font-medium text-muted-foreground">{t.content.weeklyCommission}</h2>
           <div className={`text-3xl font-bold ${isPositive ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{commission.toLocaleString()}
           </div>

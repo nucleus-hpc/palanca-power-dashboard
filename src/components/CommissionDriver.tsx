@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, Info } from 'lucide-react';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface CommissionDriverProps {
   name: string;
@@ -36,6 +37,7 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
   trend,
   tip
 }) => {
+  const { t } = useLanguage();
   const progress = Math.round((currentValue / goal) * 100);
   
   // Determine status based on progress
@@ -72,7 +74,7 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
           <div>
             <div className="flex flex-col mb-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Current</span>
+                <span className="text-sm text-muted-foreground">{t.common.current}</span>
                 <div className="flex items-center">
                   {isPositiveTrend ? (
                     <TrendingUp className="h-4 w-4 text-status-success mr-1" />
@@ -80,7 +82,7 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
                     <TrendingDown className="h-4 w-4 text-status-danger mr-1" />
                   )}
                   <span className={isPositiveTrend ? 'text-status-success text-xs' : 'text-status-danger text-xs'}>
-                    {isPositiveTrend ? 'Increasing' : 'Decreasing'}
+                    {isPositiveTrend ? t.content.increasing : t.content.decreasing}
                   </span>
                 </div>
               </div>
@@ -88,13 +90,13 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
             </div>
             
             <div className="flex flex-col mb-4">
-              <span className="text-sm text-muted-foreground">Goal</span>
+              <span className="text-sm text-muted-foreground">{t.common.goal}</span>
               <span className="text-2xl font-bold">{currency}{goal.toLocaleString()}</span>
             </div>
             
             <div className="mb-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium">Progress</span>
+                <span className="text-sm font-medium">{t.common.progress}</span>
                 <span className={`text-sm font-medium ${statusColor}`}>{progress}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
@@ -108,15 +110,15 @@ const CommissionDriver: React.FC<CommissionDriverProps> = ({
             </div>
             
             <div className="flex flex-col mb-2">
-              <span className="text-sm text-muted-foreground">Commission Earned</span>
+              <span className="text-sm text-muted-foreground">{t.content.commissionEarned}</span>
               <span className="text-xl font-bold text-commission-primary">{currency}{commission.toLocaleString()}</span>
             </div>
             
             <div className="p-3 bg-commission-light rounded-lg">
-              <span className="text-xs font-medium block mb-1">Next Threshold</span>
+              <span className="text-xs font-medium block mb-1">{t.content.nextThreshold}</span>
               <span className="text-sm">
-                Reach {currency}{nextThreshold.toLocaleString()} to earn{' '}
-                <span className="font-bold text-commission-primary">{currency}{nextCommission.toLocaleString()}</span> more
+                {t.content.reachToEarn} {currency}{nextThreshold.toLocaleString()} {t.content.toEarn}{' '}
+                <span className="font-bold text-commission-primary">{currency}{nextCommission.toLocaleString()}</span> {t.common.more}
               </span>
             </div>
           </div>

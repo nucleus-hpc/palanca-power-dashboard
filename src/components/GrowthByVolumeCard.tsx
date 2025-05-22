@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
@@ -7,6 +8,7 @@ import {
   ArrowRight, 
   Shield 
 } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface GrowthByVolumeCardProps {
   totalSales: number;
@@ -29,6 +31,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
   commissionEarned,
   currency
 }) => {
+  const { t } = useLanguage();
   const isGrowthPositive = growthPercentage >= 0;
   const hasReachedTarget = growthPercentage >= targetGrowthPercentage;
   const progressPercentage = Math.min((growthPercentage / (targetGrowthPercentage + 5)) * 100, 100);
@@ -50,27 +53,27 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg flex items-center">
             <TrendingUp className="h-5 w-5 mr-2 text-commission-primary" />
-            Growth by Volume
+            {t.headers.growthByVolume}
           </h2>
         </div>
         
         {/* Primary highlight - Total Sales */}
         <div className="mb-4 p-3 rounded-lg bg-gray-50 dark:highlighted-card">
-          <div className="text-sm text-muted-foreground">Total Sales this Quarter</div>
+          <div className="text-sm text-muted-foreground">{t.content.totalSalesQuarter}</div>
           <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{totalSales.toLocaleString()}
           </div>
           <div className={`flex items-center text-sm font-medium mt-1 
             ${isGrowthPositive ? 'text-status-success' : 'text-status-danger'}`}>
-            {isGrowthPositive ? '+' : ''}{growthPercentage}% Growth
+            {isGrowthPositive ? '+' : ''}{growthPercentage}% {t.common.growth}
           </div>
         </div>
         
         {/* Enhanced Progress Bar */}
         <div className="mt-5 mb-6">
           <div className="text-sm text-muted-foreground mb-2 flex justify-between">
-            <span>Current Progress</span>
-            <span className="font-medium">Target: {targetGrowthPercentage}% Growth</span>
+            <span>{t.content.currentProgress}</span>
+            <span className="font-medium">{t.content.targetGrowth} {targetGrowthPercentage}%</span>
           </div>
           
           <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden mb-6">
@@ -116,7 +119,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
               <Target className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">Growth Target ({targetGrowthPercentage}%)</div>
+              <div className="text-sm text-muted-foreground">{t.content.growthTarget} ({targetGrowthPercentage}%)</div>
               <div className="font-bold">{currency}{growthTarget.toLocaleString()}</div>
             </div>
           </div>
@@ -126,7 +129,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
               <CalendarDays className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">Current Month Sales</div>
+              <div className="text-sm text-muted-foreground">{t.content.currentMonthSales}</div>
               <div className="font-bold">{currency}{currentMonthSales.toLocaleString()}</div>
             </div>
           </div>
@@ -136,7 +139,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
               <ArrowRight className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">Remaining Needed</div>
+              <div className="text-sm text-muted-foreground">{t.content.remainingNeeded}</div>
               <div className="font-bold">{currency}{remainingSalesNeeded.toLocaleString()}</div>
             </div>
           </div>
@@ -153,7 +156,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
                   : 'text-status-neutral'}`} />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">Commission Earned</div>
+              <div className="text-sm text-muted-foreground">{t.content.commissionEarned}</div>
               <div className={`font-bold text-lg 
                 ${commissionEarned > 0 
                   ? 'text-commission-primary' 

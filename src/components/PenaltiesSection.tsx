@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface Penalty {
   id: number;
@@ -16,17 +17,19 @@ interface PenaltiesSectionProps {
 }
 
 const PenaltiesSection: React.FC<PenaltiesSectionProps> = ({ penalties, currency }) => {
+  const { t } = useLanguage();
+  
   if (!penalties.length) {
     return (
       <Card className="mb-6 border-dashed border-green-200 bg-green-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg font-medium flex items-center">
-            <span className="text-status-success">No Penalties</span>
+            <span className="text-status-success">{t.content.noPenalties}</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-status-success">
-            Great job! You don't have any penalties for this period.
+            {t.content.noPenaltiesMessage}
           </p>
         </CardContent>
       </Card>
@@ -40,7 +43,7 @@ const PenaltiesSection: React.FC<PenaltiesSectionProps> = ({ penalties, currency
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-medium flex items-center">
           <AlertTriangle className="h-5 w-5 text-status-danger mr-2" />
-          <span className="text-status-danger">Penalties ({penalties.length})</span>
+          <span className="text-status-danger">{t.common.penalties} ({penalties.length})</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -56,7 +59,7 @@ const PenaltiesSection: React.FC<PenaltiesSectionProps> = ({ penalties, currency
           ))}
           
           <div className="flex justify-between items-center pt-2 border-t border-red-100 mt-2">
-            <span className="font-medium">Total Penalties</span>
+            <span className="font-medium">{t.content.totalPenalties}</span>
             <span className="font-bold text-status-danger">-{currency}{totalPenalties.toLocaleString()}</span>
           </div>
         </div>
