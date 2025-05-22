@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
@@ -56,7 +55,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
         
         {/* Primary highlight - Total Sales */}
-        <div className="mb-4 p-3 rounded-lg bg-gray-50">
+        <div className="mb-4 p-3 rounded-lg bg-gray-50 dark:highlighted-card">
           <div className="text-sm text-muted-foreground">Total Sales this Quarter</div>
           <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{totalSales.toLocaleString()}
@@ -112,8 +111,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         
         {/* Data points with icons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center">
-            <div className="bg-gray-100 p-2 rounded-full mr-3">
+          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
+            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
               <Target className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
@@ -122,8 +121,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             </div>
           </div>
           
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center">
-            <div className="bg-gray-100 p-2 rounded-full mr-3">
+          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
+            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
               <CalendarDays className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
@@ -132,8 +131,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             </div>
           </div>
           
-          <div className="bg-gray-50 p-3 rounded-lg flex items-center">
-            <div className="bg-gray-100 p-2 rounded-full mr-3">
+          <div className="bg-gray-50 p-3 rounded-lg flex items-center dark:highlighted-card">
+            <div className="bg-gray-100 p-2 rounded-full mr-3 dark:bg-gray-700">
               <ArrowRight className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
@@ -143,14 +142,14 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           </div>
           
           {/* Commission earned with shield icon */}
-          <div className={`p-4 rounded-lg flex items-center 
+          <div className={`p-4 rounded-lg flex items-center dark:highlighted-card
             ${commissionEarned > 0 
-              ? 'bg-commission-light border border-commission-primary/30' 
+              ? 'bg-commission-light border border-commission-primary/30 dark:border-commission-primary/20' 
               : 'bg-gray-50'}`}>
             <div className={`p-2 rounded-full mr-3 
               ${commissionEarned > 0 
                 ? 'bg-commission-primary/20' 
-                : 'bg-status-neutral'}`}>
+                : 'bg-status-neutral dark:bg-gray-700'}`}>
               <Shield className={`h-5 w-5 
                 ${commissionEarned > 0 
                   ? 'text-commission-primary' 

@@ -38,15 +38,15 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
       <div className={`h-2 ${isGoalReached ? 'bg-gradient-to-r from-status-success to-green-600' : 'bg-gradient-to-r from-commission-primary to-commission-secondary'}`}></div>
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg">
+          <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg dark:highlighted-card">
             <span className="text-sm text-muted-foreground">Total Commission</span>
-            <span className="text-3xl font-bold text-commission-dark mt-1">{currency}{totalCommission.toLocaleString()}</span>
+            <span className="text-3xl font-bold text-commission-dark dark:text-white mt-1">{currency}{totalCommission.toLocaleString()}</span>
             <Badge className="mt-2 bg-commission-primary">{progress}% of Goal</Badge>
           </div>
           
           <div className="flex flex-col justify-center">
             <div className="relative w-full">
-              <Progress value={progress} className="h-6 bg-gray-200" />
+              <Progress value={progress} className="h-6 bg-gray-200 dark:bg-gray-700" />
               <div className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white">
                 {isGoalReached ? 'Goal Completed! 🎉' : `${progress}% to Goal`}
               </div>
@@ -59,17 +59,17 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
                   <span>Goal reached! Aim for bonus tier!</span>
                 </div>
               ) : (
-                <div className="text-commission-dark">
+                <div className="text-commission-dark dark:text-white">
                   <span className="font-medium">{currency}{remainingToGoal.toLocaleString()}</span> more to reach goal
                 </div>
               )}
             </div>
           </div>
           
-          <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg">
+          <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg dark:highlighted-card">
             <span className="text-sm text-muted-foreground">Period Goal</span>
-            <span className="text-3xl font-bold text-commission-dark mt-1">{currency}{goal.toLocaleString()}</span>
-            <Badge variant="outline" className="mt-2 border-commission-primary text-commission-primary">
+            <span className="text-3xl font-bold text-commission-dark dark:text-white mt-1">{currency}{goal.toLocaleString()}</span>
+            <Badge variant="outline" className="mt-2 border-commission-primary text-commission-primary dark:border-commission-primary/50">
               {isGoalReached ? (
                 <span className="flex items-center gap-1">
                   <CircleCheck className="h-4 w-4" /> Achieved!

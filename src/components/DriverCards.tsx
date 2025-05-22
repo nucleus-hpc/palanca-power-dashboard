@@ -49,7 +49,7 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
           <CardContent className="p-4">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center">
-                <div className={`p-2 rounded-full ${driver.progress >= 85 ? 'bg-green-100' : driver.progress >= 60 ? 'bg-amber-100' : 'bg-red-100'} mr-2`}>
+                <div className={`p-2 rounded-full ${driver.progress >= 85 ? 'bg-green-100 dark:bg-green-900/30' : driver.progress >= 60 ? 'bg-amber-100 dark:bg-amber-900/30' : 'bg-red-100 dark:bg-red-900/30'} mr-2`}>
                   {getIcon(driver.icon)}
                 </div>
                 <h3 className="font-medium">{driver.name}</h3>
@@ -70,11 +70,11 @@ const DriverCards: React.FC<DriverCardsProps> = ({ drivers, currency }) => {
             </div>
             
             <div className="grid grid-cols-2 gap-2 mt-4">
-              <div className="rounded-lg bg-gray-50 p-2 text-center">
+              <div className="rounded-lg bg-gray-50 p-2 text-center dark:highlighted-card">
                 <div className="text-xs text-muted-foreground">Current</div>
                 <div className="font-semibold">{typeof driver.currentValue === 'number' && driver.currentValue % 1 === 0 ? driver.currentValue : `${currency}${driver.currentValue.toLocaleString()}`}</div>
               </div>
-              <div className="rounded-lg bg-gray-50 p-2 text-center">
+              <div className="rounded-lg bg-gray-50 p-2 text-center dark:highlighted-card">
                 <div className="text-xs text-muted-foreground">Goal</div>
                 <div className="font-semibold">{typeof driver.goal === 'number' && driver.goal % 1 === 0 ? driver.goal : `${currency}${driver.goal.toLocaleString()}`}</div>
               </div>

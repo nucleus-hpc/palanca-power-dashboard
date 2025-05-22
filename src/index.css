@@ -46,14 +46,14 @@
   }
 
   .dark {
-    /* Updated dark mode colors with increased elevation contrast */
+    /* Updated dark mode colors with specified hex values */
     --background: 249 70% 15%;      /* #1D1934 - Base background */
     --foreground: 0 0% 100%;        /* #FFFFFF - High emphasis text */
 
-    --card: 249 60% 35%;            /* #332D5D - Surface level 1 (20% lighter) */
+    --card: 252 14% 28%;            /* #3F3C52 - Updated component background */
     --card-foreground: 0 0% 98%;    /* #FAFAFA - Card text */
 
-    --popover: 249 60% 35%;         /* #332D5D - Popover background (20% lighter) */
+    --popover: 252 14% 28%;         /* #3F3C52 - Popover background */
     --popover-foreground: 0 0% 98%; /* #FAFAFA - Popover text */
 
     --primary: 21 89% 54%;          /* #F26724 - Primary accent */
@@ -84,6 +84,9 @@
     --sidebar-accent-foreground: 0 0% 100%; /* #FFFFFF - Text on sidebar accent */
     --sidebar-border: 249 40% 40%;    /* Slightly visible borders */
     --sidebar-ring: 201 88% 54%;      /* #24AFF2 - Secondary accent for focus states */
+    
+    /* New variable for highlighted component backgrounds */
+    --highlighted-component: 248 8% 37%; /* #565367 - Highlighted component background */
   }
 }
 
@@ -96,4 +99,9 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+/* Add custom CSS for highlighted card backgrounds in dark mode */
+.dark .highlighted-card {
+  background-color: #565367 !important;
 }

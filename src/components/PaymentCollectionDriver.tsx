@@ -79,16 +79,16 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
         
         {/* Commission earned section */}
         <div 
-          className={`p-4 rounded-lg flex items-center
+          className={`p-4 rounded-lg flex items-center dark:highlighted-card
             ${hasCommissionEarned 
-              ? 'bg-commission-light border border-commission-primary/30' 
+              ? 'bg-commission-light border border-commission-primary/30 dark:border-commission-primary/20' 
               : 'bg-gray-50'}`}
         >
           <div 
             className={`p-2 rounded-full mr-3
               ${hasCommissionEarned 
                 ? 'bg-commission-primary/20' 
-                : 'bg-status-neutral/50'}`}
+                : 'bg-status-neutral/50 dark:bg-gray-700'}`}
           >
             <CreditCard 
               className={`h-5 w-5
@@ -107,7 +107,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             >
               {currency}{commissionEarned.toLocaleString()}
               {hasCommissionEarned && (
-                <span className="ml-2 text-xs bg-commission-primary/10 text-commission-primary px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-xs bg-commission-primary/10 text-commission-primary px-2 py-0.5 rounded-full dark:bg-commission-primary/20">
                   0.5% per collection
                 </span>
               )}
