@@ -7,6 +7,7 @@ import PenaltyBadges from '@/components/PenaltyBadges';
 import AchievementSection from '@/components/AchievementSection';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
+import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';
 import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
 import { Flag } from 'lucide-react';
@@ -35,6 +36,11 @@ interface MainDashboardProps {
     targetGrowthPercentage: number;
     currentMonthSales: number;
     remainingSalesNeeded: number;
+    commissionEarned: number;
+  };
+  paymentCollectionData: {
+    totalPayments: number;
+    paymentsCollected: number;
     commissionEarned: number;
   };
   commissionDrivers: Array<{
@@ -70,6 +76,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   salesRepData,
   weeklyCommissionData,
   growthVolumeData,
+  paymentCollectionData,
   commissionDrivers,
   penalties,
   historicalData,
@@ -108,6 +115,16 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             currentMonthSales={growthVolumeData.currentMonthSales}
             remainingSalesNeeded={growthVolumeData.remainingSalesNeeded}
             commissionEarned={growthVolumeData.commissionEarned}
+            currency={salesRepData.currency}
+          />
+        </div>
+        
+        {/* Payment Collection Driver */}
+        <div className="mt-6">
+          <PaymentCollectionDriver
+            totalPayments={paymentCollectionData.totalPayments}
+            paymentsCollected={paymentCollectionData.paymentsCollected}
+            commissionEarned={paymentCollectionData.commissionEarned}
             currency={salesRepData.currency}
           />
         </div>

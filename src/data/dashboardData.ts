@@ -32,6 +32,13 @@ export const growthVolumeData = {
   commissionEarned: 1500, // 1000 + (2 * 250) for 2% above target
 };
 
+// Payment collection data
+export const paymentCollectionData = {
+  totalPayments: 12,
+  paymentsCollected: 8,
+  commissionEarned: 850, // 0.5% of collected amounts
+};
+
 // Commission drivers
 export const commissionDrivers = [
   {

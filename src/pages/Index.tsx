@@ -5,6 +5,7 @@ import {
   salesRepData, 
   weeklyCommissionData, 
   growthVolumeData,
+  paymentCollectionData,
   commissionDrivers, 
   penalties, 
   historicalData 
@@ -18,6 +19,7 @@ const Index = () => {
       salesRepData={salesRepData}
       weeklyCommissionData={weeklyCommissionData}
       growthVolumeData={growthVolumeData}
+      paymentCollectionData={paymentCollectionData}
       commissionDrivers={commissionDrivers}
       penalties={penalties}
       historicalData={historicalData}
