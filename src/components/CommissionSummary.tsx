@@ -43,7 +43,7 @@ const CommissionSummary: React.FC<CommissionSummaryProps> = ({
           <div className="flex flex-col items-center text-center p-4 bg-commission-light rounded-lg dark:highlighted-card">
             <span className="text-sm text-muted-foreground">{t.content.totalCommission}</span>
             <span className="text-3xl font-bold text-commission-dark dark:text-white mt-1">{currency}{totalCommission.toLocaleString()}</span>
-            <Badge className="mt-2 bg-commission-primary">{progress}% {t.common.ofTarget}</span>
+            <Badge className="mt-2 bg-commission-primary">{progress}% {t.common.ofTarget}</Badge>
           </div>
           
           <div className="flex flex-col justify-center">
