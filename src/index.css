@@ -50,10 +50,10 @@
     --background: 249 70% 15%;      /* #1D1934 - Base background */
     --foreground: 0 0% 100%;        /* #FFFFFF - High emphasis text */
 
-    --card: 249 60% 20%;            /* #252043 - Surface level 1 */
+    --card: 249 60% 25%;            /* #2A254B - Surface level 1 (10% lighter) */
     --card-foreground: 0 0% 98%;    /* #FAFAFA - Card text */
 
-    --popover: 249 70% 15%;         /* #1D1934 - Popover background */
+    --popover: 249 60% 25%;         /* #2A254B - Popover background (10% lighter) */
     --popover-foreground: 0 0% 98%; /* #FAFAFA - Popover text */
 
     --primary: 21 89% 54%;          /* #F26724 - Primary accent */
@@ -75,12 +75,12 @@
     --input: 249 40% 30%;           /* Input border/background */
     --ring: 201 88% 54%;            /* Focus ring color */
     
-    /* Surface level 2 colors added for sidebar */
+    /* Surface level 2 colors added for sidebar and white components replacement */
     --sidebar-background: 249 70% 15%; /* #1D1934 - Base background */
     --sidebar-foreground: 0 0% 98%;   /* #FAFAFA - High contrast text */
     --sidebar-primary: 21 89% 54%;    /* #F26724 - Primary accent in sidebar */
     --sidebar-primary-foreground: 0 0% 100%; /* #FFFFFF - Text on primary in sidebar */
-    --sidebar-accent: 249 50% 32%;    /* #2E2952 - Surface level 2 for sidebar */
+    --sidebar-accent: 249 50% 32%;    /* #332D5D - Surface level 2 (20% lighter) */
     --sidebar-accent-foreground: 0 0% 100%; /* #FFFFFF - Text on sidebar accent */
     --sidebar-border: 249 40% 30%;    /* Slightly visible borders */
     --sidebar-ring: 201 88% 54%;      /* #24AFF2 - Secondary accent for focus states */

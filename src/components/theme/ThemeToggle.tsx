@@ -46,7 +46,7 @@ export function ThemeToggleButton() {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:border-border/30"
+      className="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:border-border/20"
     >
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0" />
       <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
