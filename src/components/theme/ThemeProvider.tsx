@@ -33,7 +33,6 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-
     root.classList.remove("light", "dark")
 
     if (theme === "system") {
@@ -43,11 +42,54 @@ export function ThemeProvider({
         : "light"
 
       root.classList.add(systemTheme)
-      return
+      
+      // Add listener for changes to system theme preference
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+      const handleChange = () => {
+        if (theme === "system") {
+          root.classList.remove("light", "dark")
+          root.classList.add(mediaQuery.matches ? "dark" : "light")
+        }
+      }
+      
+      mediaQuery.addEventListener("change", handleChange)
+      return () => mediaQuery.removeEventListener("change", handleChange)
+    } else {
+      root.classList.add(theme)
     }
-
-    root.classList.add(theme)
   }, [theme])
+
+  // Apply smooth transitions for theme changes
+  useEffect(() => {
+    const root = window.document.documentElement
+    root.style.setProperty("--transition-duration", "200ms")
+    
+    // Add transition class after mount to prevent transitions on page load
+    const transitionClass = "transition-colors duration-300"
+    
+    // Add transition to elements that should have color transitions
+    const elementsToTransition = [
+      "body", 
+      ".card", 
+      ".badge", 
+      "button",
+      ".dark .bg-card",
+      ".dark .text-foreground",
+      ".dark .border-border"
+    ]
+    
+    const styleElement = document.createElement("style")
+    styleElement.textContent = `
+      ${elementsToTransition.join(", ")} {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
+    `
+    document.head.appendChild(styleElement)
+    
+    return () => {
+      document.head.removeChild(styleElement)
+    }
+  }, [])
 
   const value = {
     theme,

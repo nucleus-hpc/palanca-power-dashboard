@@ -17,8 +17,8 @@ export function ThemeToggle() {
   if (!mounted) return null
   
   return (
-    <div className="flex items-center space-x-2">
-      <Sun className="h-[1.2rem] w-[1.2rem] text-muted-foreground" />
+    <div className="flex items-center space-x-2 bg-card/50 dark:bg-sidebar-accent/40 px-3 py-1.5 rounded-full">
+      <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 dark:text-amber-300" />
       <Switch 
         id="theme-toggle"
         checked={theme === 'dark'}
@@ -26,7 +26,7 @@ export function ThemeToggle() {
           setTheme(checked ? 'dark' : 'light')
         }}
       />
-      <Moon className="h-[1.2rem] w-[1.2rem] text-muted-foreground" />
+      <Moon className="h-[1.2rem] w-[1.2rem] text-indigo-700 dark:text-indigo-300" />
     </div>
   )
 }
@@ -46,6 +46,7 @@ export function ThemeToggleButton() {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:border-border/30"
     >
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0" />
       <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
