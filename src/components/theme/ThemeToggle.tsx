@@ -17,7 +17,7 @@ export function ThemeToggle() {
   if (!mounted) return null
   
   return (
-    <div className="flex items-center space-x-2 bg-card/50 dark:bg-sidebar-accent/40 px-3 py-1.5 rounded-full">
+    <div className="flex items-center space-x-2 bg-card/50 dark:bg-sidebar-accent/70 px-3 py-1.5 rounded-full">
       <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 dark:text-amber-300" />
       <Switch 
         id="theme-toggle"
