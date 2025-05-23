@@ -66,7 +66,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   }
 
   return (
-    <div className="relative h-12 bg-gray-100 rounded-full overflow-hidden mb-24 mt-8 shadow-inner">
+    <div className="relative h-12 bg-gray-100 rounded-full overflow-visible mb-32 mt-32 shadow-inner">
       {/* Progress bar fill */}
       <div 
         className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}
@@ -98,7 +98,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
         className="absolute top-0 h-full w-0.5 bg-sidebar-accent z-20"
         style={{ left: `${targetPosition}%` }}
       >
-        <div className="absolute -top-24 -translate-x-1/2 flex flex-col items-center">
+        <div className="absolute -top-28 -translate-x-1/2 flex flex-col items-center z-40 pointer-events-none">
           <div className="bg-sidebar-accent text-white px-2 py-1 rounded-t-md text-xs whitespace-nowrap">
             Punto de Activación
           </div>
@@ -106,7 +106,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
             <div className="font-bold text-sm">{targetGrowthPercentage}%</div>
             <div className="text-xs">+{currency}{formatCurrency(1000)}</div>
           </div>
-          <div className="h-8 w-0.5 bg-sidebar-accent"></div>
+          <div className="h-10 w-0.5 bg-sidebar-accent"></div>
         </div>
       </div>
       
@@ -117,8 +117,8 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
           className={`absolute top-0 h-full w-0.5 ${milestone.isUnlocked ? 'bg-status-success' : 'bg-gray-400'}`}
           style={{ left: `${milestone.position}%` }}
         >
-          <div className="absolute -top-16 -translate-x-1/2 flex flex-col items-center">
-            <div className={`${milestone.isUnlocked ? 'bg-status-success/10' : 'bg-gray-200'} p-2 rounded-md shadow-md text-center min-w-[70px]`}>
+          <div className="absolute -top-20 -translate-x-1/2 flex flex-col items-center z-30 pointer-events-none">
+            <div className={`${milestone.isUnlocked ? 'bg-status-success/80' : 'bg-gray-200'} p-2 rounded-md shadow-md text-center min-w-[70px]`}>
               <div className="font-bold text-sm">{milestone.value}%</div>
               <div className="text-xs">+{currency}{formatCurrency(milestone.reward)}</div>
             </div>
@@ -136,6 +136,11 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
         <div className="absolute -top-8 -translate-x-1/2 bg-white px-3 py-1.5 rounded-md shadow-md border border-gray-200 font-bold text-sm">
           {formattedGrowth}%
         </div>
+      </div>
+      
+      {/* Debug element to ensure rendering works - this should be visible */}
+      <div className="absolute left-0 -top-36 bg-red-500 text-white px-2 py-1 text-xs rounded z-50">
+        Debug Milestone
       </div>
     </div>
   );

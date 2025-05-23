@@ -54,9 +54,9 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
   };
 
   return (
-    <Card className="mb-6 overflow-hidden rounded-xl shadow-lg">
+    <Card className="mb-6 overflow-visible rounded-xl shadow-lg">
       <div className="h-1 bg-commission-primary"></div>
-      <CardContent className="p-6">
+      <CardContent className="p-6 overflow-visible">
         <GrowthCardHeader t={t} />
         
         {/* Total Sales Card - At the top */}
@@ -79,7 +79,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
           
         {/* Enhanced Progress Bar - Version 1 */}
-        <div className="mb-12">
+        <div className="mb-12 pt-24 pb-16 overflow-visible">
           <h3 className="text-sm font-medium mb-2">Opción 1</h3>
           <ProgressBarV1 
             growthPercentage={growthPercentage}
@@ -94,7 +94,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
         
         {/* Alternative Progress Bar Design - Version 2 */}
-        <div className="mb-12">
+        <div className="mb-12 overflow-visible pt-16 pb-16">
           <h3 className="text-sm font-medium mb-2">Opción 2</h3>
           <ProgressBarV2 
             growthPercentage={growthPercentage}
@@ -107,7 +107,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
         
         {/* Alternative Progress Bar Design - Version 3 */}
-        <div className="mb-8">
+        <div className="mb-8 overflow-visible pt-8 pb-16">
           <h3 className="text-sm font-medium mb-2">Opción 3</h3>
           <ProgressBarV3 
             growthPercentage={growthPercentage}
