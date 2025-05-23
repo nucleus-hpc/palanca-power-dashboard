@@ -4,7 +4,6 @@ import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
 import DriverCards from '@/components/DriverCards';
 import PenaltyBadges from '@/components/PenaltyBadges';
-import AchievementSection from '@/components/AchievementSection';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';

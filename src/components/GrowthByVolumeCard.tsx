@@ -59,7 +59,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
       <CardContent className="p-6">
         <GrowthCardHeader t={t} />
         
-        {/* Total Sales Card - Moved to the top */}
+        {/* Total Sales Card - At the top */}
         <TotalSales 
           totalSales={totalSales}
           hasReachedTarget={hasReachedTarget}

@@ -18,99 +18,127 @@ const ProgressBarV2: React.FC<ProgressBarV2Props> = ({
   formatCurrency,
   currency
 }) => {
-  // Determine which milestones to display based on current growth
-  const showNegativeMilestones = growthPercentage < 0;
+  // Format the growth percentage for display
+  const formattedGrowth = growthPercentage.toFixed(1).replace(/\.0$/, '');
   
-  // Calculate relative positions on the progress bar
-  const getRelativePosition = (value: number) => {
-    const min = -50;
-    const max = Math.max(highestVisibleMilestone, targetGrowthPercentage + 5);
-    return ((value - min) / (max - min)) * 100;
+  // Set range for the progress bar visualization
+  const min = growthPercentage < 0 ? -50 : 0;
+  const max = Math.max(targetGrowthPercentage + 5, highestVisibleMilestone, growthPercentage + 3);
+  const range = max - min;
+  
+  // Calculate position percentage for the progress bar
+  const getPosition = (value: number) => {
+    return ((value - min) / range) * 100;
   };
   
+  // Get positions for key points
+  const zeroPosition = getPosition(0);
+  const currentPosition = getPosition(growthPercentage);
+  const targetPosition = getPosition(targetGrowthPercentage);
+  
+  // Determine which milestones to show
+  const shouldShowNegative = growthPercentage < 0;
+  
+  // Generate forward milestones
+  const forwardMilestones = [];
+  const maxMilestones = 3; // Show max 3 forward milestones
+  
+  for (let i = 1; i <= maxMilestones; i++) {
+    const milestoneValue = targetGrowthPercentage + i;
+    if (milestoneValue <= highestVisibleMilestone) {
+      forwardMilestones.push({
+        value: milestoneValue,
+        position: getPosition(milestoneValue),
+        reward: 250 * i,
+        isUnlocked: growthPercentage >= milestoneValue
+      });
+    }
+  }
+  
   return (
-    <div className="relative rounded-lg overflow-hidden mb-24 mt-12">
-      {/* Progress track background */}
-      <div className="h-6 bg-gray-200 rounded-full relative">
-        {/* Fill color based on progress */}
+    <div className="relative mt-8 mb-24">
+      {/* Label and current value display at top */}
+      <div className="flex items-center justify-between mb-4">
+        <div className={`text-xl font-bold ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+          {formattedGrowth}%
+        </div>
+        <div className="text-sm font-medium">
+          Meta: {targetGrowthPercentage}%
+        </div>
+      </div>
+      
+      {/* Main progress track */}
+      <div className="relative h-10 bg-gray-100 rounded-xl overflow-hidden shadow-inner">
+        {/* Fill bar */}
         <div 
-          className={`absolute h-full left-0 ${
-            hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'
-          }`} 
-          style={{ width: `${getRelativePosition(growthPercentage)}%` }}
+          className={`absolute h-full ${hasReachedTarget ? 'bg-status-success/70' : 'bg-status-danger/70'}`} 
+          style={{ width: `${currentPosition}%` }}
         ></div>
         
-        {/* Current position indicator */}
-        <div 
-          className="absolute top-0 bottom-0 z-10"
-          style={{ left: `${getRelativePosition(growthPercentage)}%` }}
-        >
-          <div className={`w-4 h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}></div>
-          <div className="absolute -top-8 -translate-x-1/2 bg-white px-3 py-1 rounded-md shadow-md border border-gray-200 font-bold">
-            {growthPercentage}%
-          </div>
-        </div>
-        
         {/* Zero marker */}
-        <div className="absolute top-0 bottom-0 w-0.5 bg-gray-400" style={{ left: `${getRelativePosition(0)}%` }}>
-          <div className="absolute -bottom-7 -translate-x-1/2 bg-status-neutral px-2 py-1 rounded text-white text-xs">
+        <div 
+          className="absolute top-0 bottom-0 w-0.5 bg-gray-400 z-10" 
+          style={{ left: `${zeroPosition}%` }}
+        >
+          <div className="absolute -bottom-7 -translate-x-1/2 bg-gray-700 px-2 py-0.5 rounded text-white text-xs">
             0%
           </div>
         </div>
         
-        {/* Negative markers */}
-        {showNegativeMilestones && [-50, -40, -30, -20, -10].map(value => (
+        {/* Negative milestone markers */}
+        {shouldShowNegative && [-50, -40, -30, -20, -10].map(value => (
           <div 
-            key={`negative-${value}`} 
-            className="absolute top-0 bottom-0 w-0.5 bg-gray-300" 
-            style={{ left: `${getRelativePosition(value)}%` }}
+            key={`neg-${value}`}
+            className="absolute top-0 bottom-0 w-0.5 bg-gray-300 z-10" 
+            style={{ left: `${getPosition(value)}%` }}
           >
-            <div className="absolute -bottom-7 -translate-x-1/2 text-xs text-status-danger font-medium">
+            <div className="absolute -bottom-7 -translate-x-1/2 text-xs text-status-danger">
               {value}%
             </div>
           </div>
         ))}
         
-        {/* Target marker (13%) with activation point label */}
-        <div className="absolute top-0 bottom-0 w-0.5 bg-sidebar-accent" style={{ left: `${getRelativePosition(targetGrowthPercentage)}%` }}>
-          <div className="absolute -top-16 -translate-x-1/2">
-            <div className="flex flex-col items-center">
-              <div className="bg-sidebar-accent text-white px-2 py-1 rounded-t-md text-xs">
-                Punto de Activación
-              </div>
-              <div className="bg-sidebar-accent text-white p-2 rounded-b-md shadow-md">
-                <div className="text-center">
-                  <span className="font-bold">{targetGrowthPercentage}%</span>
-                  <br />
-                  <span>+{currency}{formatCurrency(1000)}</span>
-                </div>
-              </div>
+        {/* Target milestone marker (13%) */}
+        <div 
+          className="absolute top-0 bottom-0 w-0.5 bg-sidebar-accent z-10" 
+          style={{ left: `${targetPosition}%` }}
+        >
+          <div className="absolute -top-24 -translate-x-1/2 flex flex-col items-center">
+            <div className="bg-sidebar-accent text-white px-2 py-1 rounded-t-md text-xs">
+              Punto de Activación
             </div>
+            <div className="bg-sidebar-accent text-white p-2 rounded-b-md shadow-md min-w-[80px] text-center">
+              <div className="font-bold text-sm">{targetGrowthPercentage}%</div>
+              <div className="text-xs">+{currency}{formatCurrency(1000)}</div>
+            </div>
+            <div className="h-8 w-0.5 bg-sidebar-accent"></div>
           </div>
         </div>
         
-        {/* Additional milestones after target */}
-        {Array.from({ length: 5 }, (_, i) => targetGrowthPercentage + i + 1)
-          .filter(value => value <= highestVisibleMilestone)
-          .slice(0, 4)  // Limit to 4 forward milestones max
-          .map(value => (
-            <div 
-              key={`additional-${value}`}
-              className={`absolute top-0 bottom-0 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-400'}`}
-              style={{ left: `${getRelativePosition(value)}%` }}
-            >
-              <div className={`absolute -top-16 -translate-x-1/2`}>
-                <div className="bg-gray-300 p-2 rounded-md shadow-md">
-                  <div className="text-center text-xs">
-                    <span className="font-bold">{value}%</span>
-                    <br />
-                    <span>+{currency}{formatCurrency(250 * (value - targetGrowthPercentage))}</span>
-                  </div>
-                </div>
+        {/* Forward milestone markers */}
+        {forwardMilestones.map((milestone, index) => (
+          <div 
+            key={`forward-${index}`}
+            className={`absolute top-0 bottom-0 w-0.5 z-10 ${milestone.isUnlocked ? 'bg-status-success' : 'bg-gray-400'}`} 
+            style={{ left: `${milestone.position}%` }}
+          >
+            <div className="absolute -top-16 -translate-x-1/2 flex flex-col items-center">
+              <div className={`${milestone.isUnlocked ? 'bg-status-success/10' : 'bg-gray-200'} p-2 rounded-md shadow-md text-center min-w-[70px]`}>
+                <div className="font-bold text-sm">{milestone.value}%</div>
+                <div className="text-xs">+{currency}{formatCurrency(milestone.reward)}</div>
               </div>
+              <div className="h-8 w-0.5 bg-gray-300"></div>
             </div>
-          ))
-        }
+          </div>
+        ))}
+        
+        {/* Current position indicator */}
+        <div 
+          className="absolute top-1/2 -translate-y-1/2 z-20"
+          style={{ left: `${currentPosition}%` }}
+        >
+          <div className={`w-6 h-6 rounded-full ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'} shadow-md transform -translate-x-1/2 border-2 border-white`}></div>
+        </div>
       </div>
     </div>
   );

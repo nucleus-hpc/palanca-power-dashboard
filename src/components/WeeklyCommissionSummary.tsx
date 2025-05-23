@@ -42,8 +42,10 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
               <h2 className="text-sm font-medium text-muted-foreground">
                 {t.content.weeklyCommission}
               </h2>
-              <div className={`text-3xl font-bold ${isPositive ? 'text-status-success' : 'text-status-neutral'}`}>
-                {currency}{formatCurrency(commission)}
+              <div className="text-3xl font-bold">
+                <span className={isPositive ? 'text-status-success' : 'text-status-neutral'}>
+                  {currency}{formatCurrency(commission)}
+                </span>
               </div>
             </div>
           </div>
