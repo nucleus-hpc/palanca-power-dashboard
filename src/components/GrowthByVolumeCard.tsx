@@ -57,7 +57,6 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
       <CardContent className="p-6 overflow-visible">
         <GrowthCardHeader t={t} />
         
-        {/* Total Sales Card - At the top */}
         <TotalSales 
           totalSales={totalSales}
           hasReachedTarget={hasReachedTarget}
@@ -66,7 +65,6 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           t={t}
         />
         
-        {/* Main Growth Percentage Indicator */}
         <div className="mt-3 mb-3">
           <GrowthIndicator 
             growthPercentage={growthPercentage}
@@ -76,7 +74,6 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
           
-        {/* Progress Bar with reduced vertical margins */}
         <div className="mb-6 pt-8 pb-10 overflow-visible">
           <ProgressBarV1 
             growthPercentage={growthPercentage}
@@ -90,7 +87,6 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
         
-        {/* Data points with icons */}
         <VolumeStats 
           hasReachedTarget={hasReachedTarget}
           targetGrowthPercentage={targetGrowthPercentage}
