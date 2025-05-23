@@ -21,7 +21,7 @@ const CommissionEarned: React.FC<CommissionEarnedProps> = ({
   
   // Background and text colors based on amount
   const bgColor = isPositive ? 'bg-[#E6F4EA]' : 'bg-[#FDECEA]';
-  const textColor = isPositive ? 'text-[#1E8E3E]' : 'text-[#D93025]';
+  const textColor = isPositive ? 'text-[#10B981]' : 'text-[#D93025]';
   
   // Format numbers with two decimal places
   const formatCurrency = (value: number) => {

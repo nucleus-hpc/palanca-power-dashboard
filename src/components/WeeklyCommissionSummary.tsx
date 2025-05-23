@@ -27,7 +27,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
   };
 
   // Background and text colors based on amount
-  const bgColor = isPositive ? 'bg-[#1E8E3E]' : 'bg-[#D93025]';
+  const bgColor = isPositive ? 'bg-[#10B981]' : 'bg-[#D93025]';
   const textColor = 'text-white';
 
   return (
@@ -39,11 +39,11 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
           </div>
           
           <div className="flex flex-col">
-            <div className={`text-sm font-medium ${textColor}/80`}>
+            <div className={`text-sm font-medium ${textColor}`}>
               {dateRange}
             </div>
             <div className="flex flex-col">
-              <h2 className={`text-sm font-medium ${textColor}/80`}>
+              <h2 className={`text-sm font-medium ${textColor}`}>
                 {t.content.weeklyCommission}
               </h2>
               <div className={`text-3xl font-bold ${textColor}`}>
