@@ -11,8 +11,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// By default, set to dark mode while testing
 const App = () => (
-  <ThemeProvider defaultTheme="system" storageKey="commission-dashboard-theme">
+  <ThemeProvider defaultTheme="dark" storageKey="commission-dashboard-theme">
     <LanguageProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>

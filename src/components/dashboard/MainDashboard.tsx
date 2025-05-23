@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
@@ -12,7 +11,6 @@ import SimulationTool from '@/components/SimulationTool';
 import HistoricalPerformance from '@/components/HistoricalPerformance';
 import { Flag } from 'lucide-react';
 import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
-import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
