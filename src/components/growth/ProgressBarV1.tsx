@@ -33,19 +33,35 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   // Determine milestones to display based on current growth
   const shouldShowNegative = growthPercentage < 0;
   
-  // Generate milestone markers after target (13%)
+  // Generate milestone markers based on growth relative to target
   const forwardMilestones = [];
   const maxMilestones = 3; // Show max 3 forward milestones
 
-  for (let i = 1; i <= maxMilestones; i++) {
-    const milestoneValue = targetGrowthPercentage + i;
-    if (milestoneValue <= highestVisibleMilestone) {
-      forwardMilestones.push({
-        value: milestoneValue,
-        position: calculatePosition(milestoneValue),
-        reward: 250 * i,
-        isUnlocked: growthPercentage >= milestoneValue
-      });
+  if (growthPercentage < targetGrowthPercentage) {
+    // Show 13%, 14%, and 15% always when below activation
+    for (let i = 0; i < 3; i++) {
+      const milestoneValue = targetGrowthPercentage + i;
+      if (milestoneValue <= highestVisibleMilestone) {
+        forwardMilestones.push({
+          value: milestoneValue,
+          position: calculatePosition(milestoneValue),
+          reward: i === 0 ? 1000 : 250 * i,
+          isUnlocked: growthPercentage >= milestoneValue
+        });
+      }
+    }
+  } else {
+    // Original logic when at or above activation
+    for (let i = 1; i <= maxMilestones; i++) {
+      const milestoneValue = targetGrowthPercentage + i;
+      if (milestoneValue <= highestVisibleMilestone) {
+        forwardMilestones.push({
+          value: milestoneValue,
+          position: calculatePosition(milestoneValue),
+          reward: 250 * i,
+          isUnlocked: growthPercentage >= milestoneValue
+        });
+      }
     }
   }
 
