@@ -91,20 +91,20 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
           </div>
         </div>
         
-        {/* Side-by-side columns for Cobros2 and Penalizaciones */}
+        {/* Side-by-side columns for Cobros and Penalizaciones */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {/* Cobros2 section */}
+          {/* Cobros section */}
           <Card className="shadow-sm">
             <CardContent className="p-4">
               <h3 className="font-medium text-lg mb-4 flex items-center">
                 <CreditCard className="h-5 w-5 mr-2 text-commission-primary" />
-                Cobros2
+                Cobros
               </h3>
               
-              {/* Total collected */}
+              {/* Total collected with conditional styling */}
               <div className="mb-4">
                 <div className="text-sm text-muted-foreground">Total cobrado</div>
-                <div className="font-bold text-xl text-foreground">
+                <div className={`font-bold text-xl ${totalCollected > 0 ? 'text-status-success' : 'text-status-danger'}`}>
                   {currency}{formatCurrency(totalCollected)}
                 </div>
               </div>
@@ -128,6 +128,11 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
                   label="Comisión Ganada"
                 />
               </div>
+              
+              {/* Caption */}
+              <div className="text-xs text-muted-foreground mt-4 italic">
+                *Únicamente aplican cobros procesados por créditos durante esta semana
+              </div>
             </CardContent>
           </Card>
           
@@ -139,10 +144,10 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
                 Penalizaciones
               </h3>
               
-              {/* Total overdue */}
+              {/* Total overdue with conditional styling */}
               <div className="mb-4">
                 <div className="text-sm text-muted-foreground">Total vencido</div>
-                <div className="font-bold text-xl text-foreground">
+                <div className={`font-bold text-xl ${totalOverdue > 0 ? 'text-status-danger' : 'text-status-success'}`}>
                   {currency}{formatCurrency(totalOverdue)}
                 </div>
               </div>

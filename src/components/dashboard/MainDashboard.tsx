@@ -4,7 +4,6 @@ import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
-import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';
 import ChargesAndPenalties from '@/components/ChargesAndPenalties';
 import { getRemainingToGoal } from '@/utils/commissionUtils';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -139,19 +138,6 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             remainingSalesNeeded={growthVolumeData.remainingSalesNeeded}
             commissionEarned={growthVolumeData.commissionEarned}
             currency={salesRepData.currency}
-          />
-        </div>
-        
-        {/* Payment Collection Driver */}
-        <div className="mt-4">
-          <PaymentCollectionDriver
-            totalPayments={paymentCollectionData.totalPayments}
-            paymentsCollected={paymentCollectionData.paymentsCollected}
-            commissionEarned={paymentCollectionData.commissionEarned}
-            currency={salesRepData.currency}
-            overduePayments={paymentCollectionData.overduePayments}
-            upcomingPayments={paymentCollectionData.upcomingPayments}
-            totalCollected={paymentCollectionData.totalCollected}
           />
         </div>
         

@@ -49,10 +49,10 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   );
 
   return (
-    <div className="relative h-8 bg-gray-100 rounded-full overflow-visible shadow-inner">
+    <div className="relative h-6 bg-gray-100 rounded-full overflow-visible shadow-inner">
       {/* Progress bar fill */}
       <div 
-        className={`h-full ${hasReachedTarget ? 'bg-status-success/70' : 'bg-status-danger/70'}`}
+        className={`h-full ${hasReachedTarget ? 'bg-[#E6F4EA]' : 'bg-[#FDECEA]'}`}
         style={{ 
           width: `${Math.max(0, currentPosition)}%`,
           borderTopLeftRadius: '0.5rem',
