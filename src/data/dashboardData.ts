@@ -18,28 +18,28 @@ export const salesRepData = {
 // Weekly commission data
 export const weeklyCommissionData = {
   dateRange: 'May 19, 2025 – May 25, 2025',
-  commission: 3250,
+  commission: 1644.17,
 };
 
 // Growth by volume data
 export const growthVolumeData = {
   totalSales: 135000,
-  growthPercentage: 15,
+  growthPercentage: 18,
   growthTarget: 150000, // Target representing 13% growth
   targetGrowthPercentage: 13,
-  currentMonthSales: 28500,
-  remainingSalesNeeded: 15000,
-  commissionEarned: 1500, // 1000 + (2 * 250) for 2% above target
+  currentMonthSales: 50000,
+  remainingSalesNeeded: 0,
+  commissionEarned: 2224.17,
 };
 
 // Payment collection data
 export const paymentCollectionData = {
   totalPayments: 10,
   paymentsCollected: 8,
-  commissionEarned: 850, // 0.5% of collected amounts
-  overduePayments: 2,    // New: Number of overdue payments collected
-  upcomingPayments: 1,   // New: Number of upcoming payments collected
-  totalCollected: 170000, // New: Total amount collected
+  commissionEarned: 200,
+  overduePayments: 2,
+  upcomingPayments: 1,
+  totalCollected: 40000,
 };
 
 // Commission drivers

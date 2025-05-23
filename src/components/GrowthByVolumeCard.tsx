@@ -8,7 +8,7 @@ import ProgressBarV1 from './growth/ProgressBarV1';
 import TotalSales from './growth/TotalSales';
 import VolumeStats from './growth/VolumeStats';
 import DetailsButton from '@/components/ui/details-button';
-import { Calendar } from 'lucide-react';
+import { Calendar, CreditCard } from 'lucide-react';
 
 interface GrowthByVolumeCardProps {
   totalSales: number;
@@ -61,7 +61,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           <div className="flex items-center">
             <GrowthCardHeader t={t} />
             <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center ml-3">
-              <Calendar className="h-3 w-3 mr-1 text-commission-primary" />
+              <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
               Este mes
             </div>
           </div>
@@ -76,7 +76,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           growthPercentage={growthPercentage}
         />
         
-        <div className="mt-1 mb-3">
+        <div className="mt-6 mb-8">
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -87,6 +87,22 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             formatCurrency={formatCurrency}
             currency={currency}
           />
+        </div>
+        
+        {/* Commission description section */}
+        <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm mb-4">
+          <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
+            <CreditCard className="h-5 w-5 text-commission-primary" />
+          </div>
+          <div>
+            <div className="text-sm text-muted-foreground">Descripción de comisión</div>
+            <div className="font-bold">Recibe Q1,000.00 al llegar al punto de activación (13%). Por cada porcentaje adicional, recibe +Q250.00</div>
+          </div>
+        </div>
+        
+        {/* Caption */}
+        <div className="text-xs text-muted-foreground italic mb-4">
+          Los pedidos tipo Negociación Especial o Negociación para Crecer no aplican a las ventas totales para el cálculo de esta comisión
         </div>
         
         <VolumeStats 

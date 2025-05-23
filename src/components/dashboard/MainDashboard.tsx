@@ -149,7 +149,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             overduePayments={paymentCollectionData.overduePayments}
             upcomingPayments={paymentCollectionData.upcomingPayments}
             totalCollected={paymentCollectionData.totalCollected}
-            totalOverdue={paymentCollectionData.totalPayments * 1000} // Mocked value for demonstration
+            totalOverdue={52000}
             currency={salesRepData.currency}
           />
         </div>

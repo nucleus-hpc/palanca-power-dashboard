@@ -11,10 +11,10 @@ const DetailsButton: React.FC<DetailsButtonProps> = ({ onClick }) => {
   return (
     <Button
       size="sm"
-      className="h-6 w-6 p-0 bg-[#24AFF2] hover:bg-[#24AFF2]/90 text-white border-0"
+      className="h-4 w-4 p-0 bg-[#24AFF2] hover:bg-[#24AFF2]/90 text-white border-0"
       onClick={onClick}
     >
-      <ArrowUpRight className="h-3 w-3" />
+      <ArrowUpRight className="h-2.5 w-2.5" />
     </Button>
   );
 };

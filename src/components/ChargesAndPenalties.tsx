@@ -61,13 +61,13 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
               Cobros y Penalizaciones
             </h2>
             <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center ml-3">
-              <Calendar className="h-3 w-3 mr-1 text-commission-primary" />
+              <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
               Esta semana
             </div>
           </div>
         </div>
 
-        {/* Facturas por cobrar section - removed background */}
+        {/* Facturas por cobrar section */}
         <div className="p-4 rounded-lg mb-4">
           <h3 className="font-medium text-base mb-4">Facturas por cobrar</h3>
           
@@ -118,7 +118,7 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
               </div>
               
               {/* Commission details section */}
-              <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm border border-[#F1F2F4]">
+              <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm border border-[#D1CFD7]">
                 <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
                   <CreditCard className="h-5 w-5 text-commission-primary" />
                 </div>
@@ -166,7 +166,7 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
               </div>
               
               {/* Penalty details section */}
-              <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm border border-[#F1F2F4]">
+              <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm border border-[#D1CFD7]">
                 <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
                   <AlertTriangle className="h-5 w-5 text-status-danger" />
                 </div>

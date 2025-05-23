@@ -28,12 +28,14 @@ const TotalSales: React.FC<TotalSalesProps> = ({
           <div className="text-sm text-muted-foreground">{t.content.totalSalesQuarter}</div>
           <DetailsButton />
         </div>
-        <div className={`text-sm font-medium ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
-          {growthPercentage >= 0 ? '+' : ''}{formattedGrowth}%
-        </div>
       </div>
-      <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
-        {currency}{formatCurrency(totalSales)}
+      <div className="flex items-center gap-3">
+        <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+          {currency}{formatCurrency(totalSales)}
+        </div>
+        <div className={`text-sm font-medium ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+          {formattedGrowth}%
+        </div>
       </div>
     </div>
   );
