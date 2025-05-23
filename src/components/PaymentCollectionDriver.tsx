@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { CreditCard, Clock, Shield, Calendar } from 'lucide-react';
+import CommissionEarned from '@/components/commission/CommissionEarned';
 
 interface PaymentCollectionDriverProps {
   totalPayments: number;
@@ -107,20 +108,12 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             </div>
           </div>
           
-          {/* Commission earned - updated styling */}
-          <div className="bg-commission-primary/10 p-4 rounded-xl flex items-center shadow-sm">
-            <div className="bg-white/80 p-3 rounded-full mr-4">
-              <Shield className="h-5 w-5 text-commission-primary" />
-            </div>
-            <div>
-              <div className="text-sm text-commission-primary/80">
-                Comisión Ganada
-              </div>
-              <div className="font-bold text-lg text-commission-primary">
-                {currency}{formatCurrency(commissionEarned)}
-              </div>
-            </div>
-          </div>
+          {/* Now using our reusable CommissionEarned component */}
+          <CommissionEarned 
+            amount={commissionEarned} 
+            currency={currency} 
+            label="Comisión Ganada"
+          />
         </div>
 
         {/* Caption at the bottom */}
