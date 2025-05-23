@@ -2,17 +2,20 @@
 import React from 'react';
 import { Shield } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
+import CrossedOutIcon from '@/components/ui/crossed-out-icon';
 
 interface CommissionEarnedProps {
   amount: number;
   currency: string;
   label?: string;
+  showCrossedIcon?: boolean;
 }
 
 const CommissionEarned: React.FC<CommissionEarnedProps> = ({ 
   amount, 
   currency,
-  label 
+  label,
+  showCrossedIcon = false
 }) => {
   const { t } = useLanguage();
   
@@ -34,7 +37,15 @@ const CommissionEarned: React.FC<CommissionEarnedProps> = ({
   return (
     <div className={`p-4 rounded-xl flex items-center shadow-sm ${bgColor}`}>
       <div className="bg-white/80 p-3 rounded-full mr-4">
-        <Shield className={`h-5 w-5 ${textColor}`} />
+        {showCrossedIcon ? (
+          <CrossedOutIcon 
+            Icon={Shield} 
+            size={20} 
+            color={textColor.replace('text-', '#').replace('[', '').replace(']', '')} 
+          />
+        ) : (
+          <Shield className={`h-5 w-5 ${textColor}`} />
+        )}
       </div>
       <div>
         <div className={`text-sm ${textColor}/80`}>

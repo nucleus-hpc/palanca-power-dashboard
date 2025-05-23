@@ -64,14 +64,12 @@ const VolumeStats: React.FC<VolumeStatsProps> = ({
         </div>
       </div>
       
-      {/* Commission earned component with consistent styling */}
-      <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
-        <CommissionEarned 
-          amount={commissionEarned} 
-          currency={currency} 
-          label={t.content.commissionEarned}
-        />
-      </div>
+      {/* Commission earned component reverted to original style */}
+      <CommissionEarned 
+        amount={commissionEarned} 
+        currency={currency} 
+        label={t.content.commissionEarned}
+      />
     </div>
   );
 };
