@@ -7,6 +7,7 @@ import GrowthIndicator from './growth/GrowthIndicator';
 import ProgressBarV1 from './growth/ProgressBarV1';
 import TotalSales from './growth/TotalSales';
 import VolumeStats from './growth/VolumeStats';
+import DetailsButton from '@/components/ui/details-button';
 import { Calendar } from 'lucide-react';
 
 interface GrowthByVolumeCardProps {
@@ -59,12 +60,11 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <GrowthCardHeader t={t} />
+            <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center ml-3">
+              <Calendar className="h-3 w-3 mr-1 text-commission-primary" />
+              Este mes
+            </div>
           </div>
-        </div>
-        
-        <div className="text-sm px-3 py-1 bg-gray-100 rounded-lg font-medium text-muted-foreground dark:bg-gray-700 flex items-center mt-3 self-end ml-auto w-fit">
-          <Calendar className="h-4 w-4 mr-2 text-commission-primary" />
-          Este mes
         </div>
         
         <TotalSales 
@@ -73,19 +73,10 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           formatCurrency={formatCurrency}
           currency={currency}
           t={t}
+          growthPercentage={growthPercentage}
         />
         
-        <div className="mt-2 mb-2">
-          <GrowthIndicator 
-            growthPercentage={growthPercentage}
-            targetGrowthPercentage={targetGrowthPercentage}
-            hasReachedTarget={hasReachedTarget}
-            t={t}
-            showTargetText={false}
-          />
-        </div>
-          
-        <div className="mb-5 pt-4 pb-8 overflow-visible">
+        <div className="mt-1 mb-3">
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}

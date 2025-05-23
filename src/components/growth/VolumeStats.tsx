@@ -2,6 +2,7 @@
 import React from 'react';
 import { Target, CalendarDays, ArrowRight } from 'lucide-react';
 import CommissionEarned from '@/components/commission/CommissionEarned';
+import DetailsButton from '@/components/ui/details-button';
 
 interface VolumeStatsProps {
   hasReachedTarget: boolean;
@@ -42,8 +43,13 @@ const VolumeStats: React.FC<VolumeStatsProps> = ({
         <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
           <CalendarDays className="h-5 w-5 text-commission-primary" />
         </div>
-        <div>
-          <div className="text-sm text-muted-foreground">{t.content.currentMonthSales}</div>
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="text-sm text-muted-foreground">{t.content.currentMonthSales}</div>
+              <DetailsButton />
+            </div>
+          </div>
           <div className="font-bold">{currency}{formatCurrency(currentMonthSales)}</div>
         </div>
       </div>
