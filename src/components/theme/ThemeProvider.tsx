@@ -43,8 +43,8 @@ export function ThemeProvider({
   }, [storageKey]) // Only run on mount and if storageKey changes
 
   // Provide a dummy setTheme function that does nothing
-  const value = {
-    theme: "light",
+  const value: ThemeProviderState = {
+    theme: "light" as Theme,
     setTheme: (_theme: Theme) => {
       // This is intentionally a no-op while dark mode is disabled
       console.log("Theme changing is temporarily disabled")
