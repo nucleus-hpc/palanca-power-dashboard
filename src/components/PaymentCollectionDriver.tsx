@@ -36,7 +36,9 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
         {Array.from({ length: total }).map((_, index) => (
           <div
             key={index}
-            className={`h-2 flex-1 rounded-full ${index < filled ? 'bg-status-success' : 'bg-gray-300 dark:bg-gray-700'}`}
+            className={`h-2 flex-1 rounded-full ${
+              index < filled ? 'bg-status-success' : colorClass
+            }`}
           />
         ))}
       </div>
@@ -52,6 +54,9 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             <CreditCard className="h-5 w-5 mr-3 text-commission-primary" />
             Cobros
           </h2>
+          <div className="text-sm px-3 py-1 bg-gray-100 rounded-lg font-medium text-muted-foreground dark:bg-gray-700">
+            Esta semana
+          </div>
         </div>
 
         {/* Total collected - similar to "Total Sales" in GrowthByVolume */}
@@ -62,8 +67,8 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
           </div>
         </div>
         
-        {/* Invoice collection section */}
-        <div className="mb-6">
+        {/* Invoice collection section - grouped in one container */}
+        <div className="bg-gray-50 p-4 rounded-lg mb-6 dark:highlighted-card">
           <h3 className="font-medium text-base mb-4">Facturas por cobrar</h3>
           
           {/* Overdue invoices */}
@@ -71,21 +76,21 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             <div className="flex justify-between mb-1">
               <span className="text-sm">Vencidas</span>
               <span className="text-sm">
-                {overduePayments} / <span className="text-status-danger">{totalPayments}</span>
+                {overduePayments} / <span className="text-status-danger font-bold">{totalPayments}</span>
               </span>
             </div>
-            {renderSegments(overduePayments, totalPayments, 'bg-status-danger')}
+            {renderSegments(overduePayments, totalPayments, 'bg-red-100')}
           </div>
           
           {/* Upcoming invoices */}
           <div>
             <div className="flex justify-between mb-1">
-              <span className="text-sm">Facturas por vencer</span>
+              <span className="text-sm">Por vencer</span>
               <span className="text-sm">
-                {upcomingPayments} / <span className="text-status-warning">{21}</span>
+                {upcomingPayments} / <span className="text-status-warning font-bold">{21}</span>
               </span>
             </div>
-            {renderSegments(upcomingPayments, 21, 'bg-status-warning')}
+            {renderSegments(upcomingPayments, 21, 'bg-yellow-100')}
           </div>
         </div>
         
@@ -98,9 +103,6 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             <div>
               <div className="text-sm text-muted-foreground">Descripción de comisión</div>
               <div className="font-bold">0.5% sobre el monto total de los cobros realizados</div>
-              <div className="text-xs text-muted-foreground mt-1 italic">
-                *Únicamente aplican cobros procesados por créditos durante esta semana
-              </div>
             </div>
           </div>
           
@@ -118,6 +120,11 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Caption at the bottom */}
+        <div className="text-xs text-muted-foreground mt-6 italic">
+          *Únicamente aplican cobros procesados por créditos durante esta semana
         </div>
       </CardContent>
     </Card>
