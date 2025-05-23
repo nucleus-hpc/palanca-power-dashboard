@@ -95,7 +95,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
       
       {/* Target marker (13%) - Always visible as activation point */}
       <div 
-        className="absolute top-0 h-full w-0.5 bg-sidebar-accent"
+        className="absolute top-0 h-full w-0.5 bg-sidebar-accent z-20"
         style={{ left: `${targetPosition}%` }}
       >
         <div className="absolute -top-24 -translate-x-1/2 flex flex-col items-center">
@@ -129,7 +129,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
       
       {/* Current position marker */}
       <div 
-        className="absolute top-0 h-full z-10"
+        className="absolute top-0 h-full z-30"
         style={{ left: `${currentPosition}%` }}
       >
         <div className={`h-full w-2 ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}></div>
