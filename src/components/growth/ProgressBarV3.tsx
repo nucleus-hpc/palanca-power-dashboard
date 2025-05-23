@@ -20,53 +20,54 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
   t,
   highestVisibleMilestone
 }) => {
-  // Determine which negative milestones to display based on current growth
+  // Determine which milestones to display based on current growth
   const showNegativeMilestones = growthPercentage < 0;
   
+  // Set range for the progress bar visualization
+  const min = showNegativeMilestones ? -50 : 0;
+  const max = Math.max(targetGrowthPercentage + 5, growthPercentage + 3, highestVisibleMilestone);
+  const range = max - min;
+  
+  // Calculate position percentage for the progress bar
+  const getPosition = (value: number) => {
+    return ((value - min) / range) * 100;
+  };
+  
+  // The current growth percentage position
+  const currentPosition = getPosition(growthPercentage);
+  
+  // Format the current growth percentage for display
+  const formattedGrowth = growthPercentage.toFixed(1).replace(/\.0$/, '');
+  
   return (
-    <div className="relative mt-12 mb-20">
-      <div className="flex items-center justify-between mb-2">
-        <span className={`text-base font-bold ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
-          {growthPercentage}%
+    <div className="relative mt-8 mb-20">
+      {/* Current growth percentage indicator */}
+      <div className="flex items-center justify-between mb-6">
+        <span className={`text-xl font-bold ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+          {formattedGrowth}%
         </span>
-        <span className="text-sm font-medium">{t.content.targetGrowth} ({targetGrowthPercentage}%)</span>
+        <span className="text-sm font-medium">
+          {t.content.targetGrowth} ({targetGrowthPercentage}%)
+        </span>
       </div>
       
-      <div className="relative h-12 bg-gray-100 rounded-xl overflow-hidden">
-        {/* Background grid lines */}
-        <div className="absolute inset-0 grid grid-cols-10 w-full h-full">
-          {Array.from({length: 10}).map((_, i) => (
-            <div key={i} className="h-full border-r border-gray-200" />
-          ))}
-        </div>
-        
+      {/* Progress bar container */}
+      <div className="relative h-12 bg-gray-100 rounded-xl overflow-hidden shadow-inner">
         {/* Progress fill */}
         <div className={`absolute h-full transition-all duration-500 ease-out ${
-          growthPercentage < 0 
-            ? 'bg-status-danger/30 border-r-4 border-status-danger' 
-            : hasReachedTarget 
-              ? 'bg-gradient-to-r from-status-success/20 to-status-success/40 border-r-4 border-status-success'
-              : 'bg-gradient-to-r from-commission-primary/20 to-commission-primary/40 border-r-4 border-commission-primary'
+          hasReachedTarget 
+            ? 'bg-gradient-to-r from-status-success/30 to-status-success/50 border-r-4 border-status-success'
+            : 'bg-gradient-to-r from-status-danger/30 to-status-danger/50 border-r-4 border-status-danger'
           }`}
-          style={{ width: `${Math.max(0, (growthPercentage + 50) / 100 * 100)}%` }}
+          style={{ width: `${currentPosition}%` }}
         />
-        
-        {/* Target milestone (13%) */}
-        <div className="absolute bottom-0 top-0 w-1 bg-commission-dark"
-          style={{ left: `${(targetGrowthPercentage + 50) / 100 * 100}%` }}>
-          <div className="absolute -top-10 -translate-x-1/2 flex flex-col items-center">
-            <div className="bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg border border-commission-dark min-w-[80px]">
-              <div className="text-xs font-bold text-center">{targetGrowthPercentage}%</div>
-              <div className="text-xs text-center">{currency}{formatCurrency(1000)}</div>
-            </div>
-            <div className="h-4 w-0.5 bg-commission-dark"></div>
-          </div>
-        </div>
         
         {/* Zero milestone */}
         <div className="absolute bottom-0 top-0 w-0.5 bg-gray-400"
-          style={{ left: `${(0 + 50) / 100 * 100}%` }}>
-          <div className="absolute -bottom-6 -translate-x-1/2 text-xs font-medium">0%</div>
+          style={{ left: `${getPosition(0)}%` }}>
+          <div className="absolute -bottom-6 -translate-x-1/2 bg-status-neutral px-2 py-0.5 rounded text-white text-xs">
+            0%
+          </div>
         </div>
         
         {/* Negative milestones - only show if relevant */}
@@ -75,29 +76,46 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
             <div 
               key={`neg-${value}`}
               className="absolute bottom-0 top-0 w-0.5 bg-gray-300"
-              style={{ left: `${(value + 50) / 100 * 100}%` }}
+              style={{ left: `${getPosition(value)}%` }}
             >
-              <div className="absolute -bottom-6 -translate-x-1/2 text-[10px] text-gray-500">{value}%</div>
+              <div className="absolute -bottom-6 -translate-x-1/2 text-[10px] text-status-danger">
+                {value}%
+              </div>
             </div>
           ))
         }
         
-        {/* Additional milestones after target - show dynamically based on progress */}
-        {Array.from({ length: 7 }, (_, i) => targetGrowthPercentage + i + 1)
+        {/* Target milestone (13%) with activation point label */}
+        <div className="absolute bottom-0 top-0 w-0.5 bg-sidebar-accent"
+          style={{ left: `${getPosition(targetGrowthPercentage)}%` }}>
+          <div className="absolute -top-16 -translate-x-1/2 flex flex-col items-center">
+            <div className="bg-sidebar-accent text-white px-2 py-1 rounded-t-md text-xs">
+              Punto de Activación
+            </div>
+            <div className="bg-sidebar-accent text-white p-2 rounded-b-md shadow-lg min-w-[80px]">
+              <div className="text-xs font-bold text-center">{targetGrowthPercentage}%</div>
+              <div className="text-xs text-center">+{currency}{formatCurrency(1000)}</div>
+            </div>
+            <div className="h-4 w-0.5 bg-sidebar-accent"></div>
+          </div>
+        </div>
+        
+        {/* Additional milestones after target */}
+        {Array.from({ length: 5 }, (_, i) => targetGrowthPercentage + i + 1)
           .filter(value => value <= highestVisibleMilestone)
+          .slice(0, 4)  // Limit to 4 forward milestones max
           .map(value => (
             <div 
               key={`add-${value}`}
-              className={`absolute bottom-0 top-0 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}
-              style={{ left: `${(value + 50) / 100 * 100}%` }}
+              className={`absolute bottom-0 top-0 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-400'}`}
+              style={{ left: `${getPosition(value)}%` }}
             >
               <div className="absolute -top-10 -translate-x-1/2 flex flex-col items-center">
-                <div className={`bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg border 
-                  ${growthPercentage >= value ? 'border-status-success' : 'border-gray-200'} min-w-[80px]`}>
+                <div className={`bg-gray-300 p-2 rounded-md shadow-md min-w-[80px]`}>
                   <div className="text-xs font-bold text-center">{value}%</div>
                   <div className="text-xs text-center">+{currency}{formatCurrency(250 * (value - targetGrowthPercentage))}</div>
                 </div>
-                <div className={`h-4 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}></div>
+                <div className={`h-4 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-400'}`}></div>
               </div>
             </div>
           ))
@@ -106,12 +124,11 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
         {/* Current position indicator */}
         <div 
           className="absolute top-1/2 -translate-y-1/2 z-10"
-          style={{ left: `${(growthPercentage + 50) / 100 * 100}%` }}
+          style={{ left: `${currentPosition}%` }}
         >
           <div className={`w-6 h-6 rounded-full shadow-lg ${
             hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'
           } transform -translate-x-1/2 border-2 border-white flex items-center justify-center`}>
-            <span className="text-white text-xs font-bold"></span>
           </div>
         </div>
       </div>

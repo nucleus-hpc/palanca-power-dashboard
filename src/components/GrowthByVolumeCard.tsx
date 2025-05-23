@@ -69,15 +69,18 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         />
         
         {/* Main Growth Percentage Indicator */}
-        <div className="my-8">
+        <div className="mt-4 mb-6">
           <GrowthIndicator 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
             hasReachedTarget={hasReachedTarget}
             t={t}
           />
+        </div>
           
-          {/* Enhanced Progress Bar - Version 1 */}
+        {/* Enhanced Progress Bar - Version 1 */}
+        <div className="mb-12">
+          <h3 className="text-sm font-medium mb-2">Opción 1</h3>
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -88,8 +91,11 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             formatCurrency={formatCurrency}
             currency={currency}
           />
-          
-          {/* Alternative Progress Bar Design - Version 2 */}
+        </div>
+        
+        {/* Alternative Progress Bar Design - Version 2 */}
+        <div className="mb-12">
+          <h3 className="text-sm font-medium mb-2">Opción 2</h3>
           <ProgressBarV2 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -98,8 +104,11 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             formatCurrency={formatCurrency}
             currency={currency}
           />
-          
-          {/* Alternative Progress Bar Design - Version 3 */}
+        </div>
+        
+        {/* Alternative Progress Bar Design - Version 3 */}
+        <div className="mb-8">
+          <h3 className="text-sm font-medium mb-2">Opción 3</h3>
           <ProgressBarV3 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
