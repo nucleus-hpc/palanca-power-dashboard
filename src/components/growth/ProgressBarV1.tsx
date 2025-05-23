@@ -49,11 +49,15 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   );
 
   return (
-    <div className="relative h-12 bg-gray-100 rounded-full overflow-visible shadow-inner">
+    <div className="relative h-8 bg-gray-100 rounded-full overflow-visible shadow-inner">
       {/* Progress bar fill */}
       <div 
-        className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}
-        style={{ width: `${Math.max(0, currentPosition)}%` }}
+        className={`h-full ${hasReachedTarget ? 'bg-status-success/70' : 'bg-status-danger/70'}`}
+        style={{ 
+          width: `${Math.max(0, currentPosition)}%`,
+          borderTopLeftRadius: '0.5rem',
+          borderBottomLeftRadius: '0.5rem'
+        }}
       ></div>
       
       {/* Negative milestone markers */}

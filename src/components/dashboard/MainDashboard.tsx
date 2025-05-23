@@ -5,6 +5,7 @@ import CommissionSummary from '@/components/CommissionSummary';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';
+import ChargesAndPenalties from '@/components/ChargesAndPenalties';
 import { getRemainingToGoal } from '@/utils/commissionUtils';
 import { useLanguage } from '@/i18n/LanguageContext';
 import DashboardHeader from './DashboardHeader';
@@ -101,7 +102,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] dark:bg-background/80 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <DashboardHeader
           title="Comisiones"
           currentSalesRepId={currentSalesRepId}
@@ -109,7 +110,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           allSalesReps={allSalesReps}
         />
         
-        <div className="mt-6">
+        <div className="mt-4">
           <ProfileHeader
             name={salesRepData.name}
             routeNumber={salesRepData.routeNumber}
@@ -119,7 +120,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         </div>
         
         {/* Weekly Commission Summary */}
-        <div className="mt-6">
+        <div className="mt-4">
           <WeeklyCommissionSummary
             dateRange={weeklyCommissionData.dateRange}
             commission={weeklyCommissionData.commission}
@@ -128,7 +129,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         </div>
         
         {/* Growth by Volume Card */}
-        <div className="mt-6">
+        <div className="mt-4">
           <GrowthByVolumeCard
             totalSales={growthVolumeData.totalSales}
             growthPercentage={growthVolumeData.growthPercentage}
@@ -142,7 +143,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
         </div>
         
         {/* Payment Collection Driver */}
-        <div className="mt-6">
+        <div className="mt-4">
           <PaymentCollectionDriver
             totalPayments={paymentCollectionData.totalPayments}
             paymentsCollected={paymentCollectionData.paymentsCollected}
@@ -151,6 +152,19 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             overduePayments={paymentCollectionData.overduePayments}
             upcomingPayments={paymentCollectionData.upcomingPayments}
             totalCollected={paymentCollectionData.totalCollected}
+          />
+        </div>
+        
+        {/* Charges and Penalties Section */}
+        <div className="mt-4">
+          <ChargesAndPenalties
+            totalPayments={paymentCollectionData.totalPayments}
+            paymentsCollected={paymentCollectionData.paymentsCollected}
+            overduePayments={paymentCollectionData.overduePayments}
+            upcomingPayments={paymentCollectionData.upcomingPayments}
+            totalCollected={paymentCollectionData.totalCollected}
+            totalOverdue={paymentCollectionData.totalPayments * 1000} // Mocked value for demonstration
+            currency={salesRepData.currency}
           />
         </div>
         
