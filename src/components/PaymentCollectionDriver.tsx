@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CreditCard, Clock, Shield } from 'lucide-react';
+import { CreditCard, Clock, Shield, Calendar } from 'lucide-react';
 
 interface PaymentCollectionDriverProps {
   totalPayments: number;
@@ -54,7 +54,8 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             <CreditCard className="h-5 w-5 mr-3 text-commission-primary" />
             Cobros
           </h2>
-          <div className="text-sm px-3 py-1 bg-gray-100 rounded-lg font-medium text-muted-foreground dark:bg-gray-700">
+          <div className="text-sm px-3 py-1 bg-gray-100 rounded-lg font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
+            <Calendar className="h-4 w-4 mr-2 text-commission-primary" />
             Esta semana
           </div>
         </div>
@@ -102,20 +103,20 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Descripción de comisión</div>
-              <div className="font-bold">0.5% sobre el monto total de los cobros realizados</div>
+              <div className="font-bold">0.5% sobre el monto total de los cobros realizados*</div>
             </div>
           </div>
           
-          {/* Commission earned - similar to the one in GrowthByVolume */}
-          <div className="bg-status-success p-4 rounded-xl flex items-center shadow-sm">
-            <div className="bg-white/30 p-3 rounded-full mr-4">
-              <Shield className="h-5 w-5 text-white" />
+          {/* Commission earned - updated styling */}
+          <div className="bg-commission-primary/10 p-4 rounded-xl flex items-center shadow-sm">
+            <div className="bg-white/80 p-3 rounded-full mr-4">
+              <Shield className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-white/90">
+              <div className="text-sm text-commission-primary/80">
                 Comisión Ganada
               </div>
-              <div className="font-bold text-lg text-white">
+              <div className="font-bold text-lg text-commission-primary">
                 {currency}{formatCurrency(commissionEarned)}
               </div>
             </div>

@@ -7,6 +7,7 @@ import GrowthIndicator from './growth/GrowthIndicator';
 import ProgressBarV1 from './growth/ProgressBarV1';
 import TotalSales from './growth/TotalSales';
 import VolumeStats from './growth/VolumeStats';
+import { Calendar } from 'lucide-react';
 
 interface GrowthByVolumeCardProps {
   totalSales: number;
@@ -55,7 +56,13 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
     <Card className="mb-6 overflow-visible rounded-xl shadow-lg">
       <div className="h-1 bg-commission-primary"></div>
       <CardContent className="p-6 overflow-visible">
-        <GrowthCardHeader t={t} />
+        <div className="flex items-center justify-between mb-6">
+          <GrowthCardHeader t={t} />
+          <div className="text-sm px-3 py-1 bg-gray-100 rounded-lg font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
+            <Calendar className="h-4 w-4 mr-2 text-commission-primary" />
+            Este mes
+          </div>
+        </div>
         
         <TotalSales 
           totalSales={totalSales}
