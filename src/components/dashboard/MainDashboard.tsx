@@ -1,16 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
-import DriverCards from '@/components/DriverCards';
-import PenaltyBadges from '@/components/PenaltyBadges';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';
-import { Flag } from 'lucide-react';
 import { getRemainingToGoal } from '@/utils/commissionUtils';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import DashboardHeader from './DashboardHeader';
+import DashboardDrivers from './DashboardDrivers';
+import DashboardPenalties from './DashboardPenalties';
 
 interface MainDashboardProps {
   salesRepData: {
@@ -41,9 +40,9 @@ interface MainDashboardProps {
     totalPayments: number;
     paymentsCollected: number;
     commissionEarned: number;
-    overduePayments: number; // New prop
-    upcomingPayments: number; // New prop
-    totalCollected: number; // New prop
+    overduePayments: number;
+    upcomingPayments: number;
+    totalCollected: number;
   };
   commissionDrivers: Array<{
     id: number;
@@ -103,21 +102,12 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   return (
     <div className="min-h-screen bg-[#F5F5F5] dark:bg-background/80 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-commission-dark dark:text-white">Comisiones</h1>
-          <Select value={currentSalesRepId} onValueChange={onSalesRepChange}>
-            <SelectTrigger className="w-[240px] bg-white dark:bg-sidebar-accent shadow-md">
-              <SelectValue placeholder="Seleccionar vendedor" />
-            </SelectTrigger>
-            <SelectContent>
-              {allSalesReps.map((rep) => (
-                <SelectItem key={rep.id} value={rep.id}>
-                  {rep.name} - Ruta {rep.routeNumber}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <DashboardHeader
+          title="Comisiones"
+          currentSalesRepId={currentSalesRepId}
+          onSalesRepChange={onSalesRepChange}
+          allSalesReps={allSalesReps}
+        />
         
         <div className="mt-6">
           <ProfileHeader
@@ -171,29 +161,17 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           remainingToGoal={remainingToGoal}
         />
         
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">{t.headers.commissionDrivers}</h2>
-          </div>
-          
-          <DriverCards 
-            drivers={commissionDrivers}
-            currency={salesRepData.currency}
-          />
-        </div>
+        <DashboardDrivers 
+          commissionDrivers={commissionDrivers}
+          currency={salesRepData.currency}
+          t={t}
+        />
         
-        {penalties.length > 0 && (
-          <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4 flex items-center">
-              <Flag className="h-5 w-5 mr-2 text-status-danger" />
-              {t.common.penalties}
-            </h2>
-            <PenaltyBadges
-              penalties={penalties}
-              currency={salesRepData.currency}
-            />
-          </div>
-        )}
+        <DashboardPenalties
+          penalties={penalties}
+          currency={salesRepData.currency}
+          t={t}
+        />
       </div>
     </div>
   );
