@@ -58,15 +58,15 @@ const VolumeStats: React.FC<VolumeStatsProps> = ({
       </div>
       
       {/* Commission earned with dynamic background based on growth percentage */}
-      <div className={`${hasReachedTarget ? 'bg-status-success' : 'bg-gray-50 dark:highlighted-card'} p-4 rounded-xl flex items-center shadow-sm`}>
-        <div className={`${hasReachedTarget ? 'bg-white/30' : 'bg-gray-100 dark:bg-gray-700'} p-3 rounded-full mr-4`}>
-          <Shield className={`h-5 w-5 ${hasReachedTarget ? 'text-white' : 'text-commission-primary'}`} />
+      <div className={`${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'} p-4 rounded-xl flex items-center shadow-sm`}>
+        <div className={`${hasReachedTarget ? 'bg-white/30' : 'bg-white/20'} p-3 rounded-full mr-4`}>
+          <Shield className="h-5 w-5 text-white" />
         </div>
         <div>
-          <div className={`text-sm ${hasReachedTarget ? 'text-white/90' : 'text-muted-foreground'}`}>
+          <div className="text-sm text-white/90">
             {t.content.commissionEarned}
           </div>
-          <div className={`font-bold text-lg ${hasReachedTarget ? 'text-white' : ''}`}>
+          <div className="font-bold text-lg text-white">
             {currency}{formatCurrency(commissionEarned)}
           </div>
         </div>

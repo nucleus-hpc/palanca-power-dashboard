@@ -59,6 +59,15 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
       <CardContent className="p-6">
         <GrowthCardHeader t={t} />
         
+        {/* Total Sales Card - Moved to the top */}
+        <TotalSales 
+          totalSales={totalSales}
+          hasReachedTarget={hasReachedTarget}
+          formatCurrency={formatCurrency}
+          currency={currency}
+          t={t}
+        />
+        
         {/* Main Growth Percentage Indicator */}
         <div className="my-8">
           <GrowthIndicator 
@@ -90,27 +99,17 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             currency={currency}
           />
           
-          {/* Alternative Progress Bar Design - Version 3 (Hidden) */}
-          <div className="hidden">
-            <ProgressBarV3 
-              growthPercentage={growthPercentage}
-              targetGrowthPercentage={targetGrowthPercentage}
-              hasReachedTarget={hasReachedTarget}
-              formatCurrency={formatCurrency}
-              currency={currency}
-              t={t}
-            />
-          </div>
+          {/* Alternative Progress Bar Design - Version 3 */}
+          <ProgressBarV3 
+            growthPercentage={growthPercentage}
+            targetGrowthPercentage={targetGrowthPercentage}
+            hasReachedTarget={hasReachedTarget}
+            formatCurrency={formatCurrency}
+            currency={currency}
+            t={t}
+            highestVisibleMilestone={highestVisibleMilestone}
+          />
         </div>
-        
-        {/* Total Sales Card */}
-        <TotalSales 
-          totalSales={totalSales}
-          hasReachedTarget={hasReachedTarget}
-          formatCurrency={formatCurrency}
-          currency={currency}
-          t={t}
-        />
         
         {/* Data points with icons */}
         <VolumeStats 

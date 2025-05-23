@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
@@ -7,10 +8,8 @@ import AchievementSection from '@/components/AchievementSection';
 import WeeklyCommissionSummary from '@/components/WeeklyCommissionSummary';
 import GrowthByVolumeCard from '@/components/GrowthByVolumeCard';
 import PaymentCollectionDriver from '@/components/PaymentCollectionDriver';
-import SimulationTool from '@/components/SimulationTool';
-import HistoricalPerformance from '@/components/HistoricalPerformance';
 import { Flag } from 'lucide-react';
-import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
+import { getRemainingToGoal } from '@/utils/commissionUtils';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -88,7 +87,6 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   paymentCollectionData,
   commissionDrivers,
   penalties,
-  historicalData,
   period,
   setPeriod,
   allSalesReps,
@@ -191,25 +189,6 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             />
           </div>
         )}
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <div>
-            <h2 className="text-xl font-bold mb-4">{t.headers.commissionSimulator}</h2>
-            <SimulationTool
-              currency={salesRepData.currency}
-              currentCommission={salesRepData.commission}
-              simulateEarnings={simulateEarnings}
-            />
-          </div>
-          
-          <div>
-            <h2 className="text-xl font-bold mb-4">{t.headers.performanceHistory}</h2>
-            <HistoricalPerformance
-              historicalData={historicalData}
-              currency={salesRepData.currency}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

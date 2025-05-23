@@ -8,6 +8,7 @@ interface ProgressBarV3Props {
   formatCurrency: (value: number) => string;
   currency: string;
   t: any;
+  highestVisibleMilestone: number;
 }
 
 const ProgressBarV3: React.FC<ProgressBarV3Props> = ({ 
@@ -16,10 +17,14 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
   hasReachedTarget,
   formatCurrency,
   currency,
-  t
+  t,
+  highestVisibleMilestone
 }) => {
+  // Determine which negative milestones to display based on current growth
+  const showNegativeMilestones = growthPercentage < 0;
+  
   return (
-    <div className="relative mt-24 mb-20">
+    <div className="relative mt-12 mb-20">
       <div className="flex items-center justify-between mb-2">
         <span className={`text-base font-bold ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
           {growthPercentage}%
@@ -46,7 +51,6 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
           style={{ width: `${Math.max(0, (growthPercentage + 50) / 100 * 100)}%` }}
         />
         
-        {/* Key milestones */}
         {/* Target milestone (13%) */}
         <div className="absolute bottom-0 top-0 w-1 bg-commission-dark"
           style={{ left: `${(targetGrowthPercentage + 50) / 100 * 100}%` }}>
@@ -65,34 +69,39 @@ const ProgressBarV3: React.FC<ProgressBarV3Props> = ({
           <div className="absolute -bottom-6 -translate-x-1/2 text-xs font-medium">0%</div>
         </div>
         
-        {/* Negative milestones */}
-        {[-50, -40, -30, -20, -10].map(value => (
-          <div 
-            key={`neg-${value}`}
-            className="absolute bottom-0 top-0 w-0.5 bg-gray-300"
-            style={{ left: `${(value + 50) / 100 * 100}%` }}
-          >
-            <div className="absolute -bottom-6 -translate-x-1/2 text-[10px] text-gray-500">{value}%</div>
-          </div>
-        ))}
-        
-        {/* Additional milestones after target */}
-        {Array.from({ length: 7 }, (_, i) => targetGrowthPercentage + i + 1).map(value => (
-          <div 
-            key={`add-${value}`}
-            className={`absolute bottom-0 top-0 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}
-            style={{ left: `${(value + 50) / 100 * 100}%` }}
-          >
-            <div className="absolute -top-10 -translate-x-1/2 flex flex-col items-center">
-              <div className={`bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg border 
-                ${growthPercentage >= value ? 'border-status-success' : 'border-gray-200'} min-w-[80px]`}>
-                <div className="text-xs font-bold text-center">{value}%</div>
-                <div className="text-xs text-center">+{currency}{formatCurrency(250 * (value - targetGrowthPercentage))}</div>
-              </div>
-              <div className={`h-4 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}></div>
+        {/* Negative milestones - only show if relevant */}
+        {showNegativeMilestones && 
+          [-50, -40, -30, -20, -10].map(value => (
+            <div 
+              key={`neg-${value}`}
+              className="absolute bottom-0 top-0 w-0.5 bg-gray-300"
+              style={{ left: `${(value + 50) / 100 * 100}%` }}
+            >
+              <div className="absolute -bottom-6 -translate-x-1/2 text-[10px] text-gray-500">{value}%</div>
             </div>
-          </div>
-        ))}
+          ))
+        }
+        
+        {/* Additional milestones after target - show dynamically based on progress */}
+        {Array.from({ length: 7 }, (_, i) => targetGrowthPercentage + i + 1)
+          .filter(value => value <= highestVisibleMilestone)
+          .map(value => (
+            <div 
+              key={`add-${value}`}
+              className={`absolute bottom-0 top-0 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}
+              style={{ left: `${(value + 50) / 100 * 100}%` }}
+            >
+              <div className="absolute -top-10 -translate-x-1/2 flex flex-col items-center">
+                <div className={`bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg border 
+                  ${growthPercentage >= value ? 'border-status-success' : 'border-gray-200'} min-w-[80px]`}>
+                  <div className="text-xs font-bold text-center">{value}%</div>
+                  <div className="text-xs text-center">+{currency}{formatCurrency(250 * (value - targetGrowthPercentage))}</div>
+                </div>
+                <div className={`h-4 w-0.5 ${growthPercentage >= value ? 'bg-status-success' : 'bg-gray-300'}`}></div>
+              </div>
+            </div>
+          ))
+        }
         
         {/* Current position indicator */}
         <div 
