@@ -33,13 +33,19 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   // Determine milestones to display based on current growth
   const shouldShowNegative = growthPercentage < 0;
   
+  // Dynamic milestone spacing logic
+  const MIN_SPACING = 4; // Minimum 4% spacing between milestones
+  const remainingSpace = highestVisibleMilestone - Math.ceil(growthPercentage);
+  const dynamicMilestoneLimit = Math.min(3, Math.floor(remainingSpace / MIN_SPACING));
+  
   // Generate milestone markers based on growth relative to target
   const forwardMilestones = [];
-  const maxMilestones = 3; // Show max 3 forward milestones
 
   if (growthPercentage < targetGrowthPercentage) {
-    // Show 13%, 14%, and 15% always when below activation
-    for (let i = 0; i < 3; i++) {
+    // Show milestones at and after the target activation point, limited by dynamic constraints
+    const milestonesToShow = Math.min(3, dynamicMilestoneLimit + 1); // Include activation point in space calculation
+    
+    for (let i = 0; i < milestonesToShow; i++) {
       const milestoneValue = targetGrowthPercentage + i;
       if (milestoneValue <= highestVisibleMilestone) {
         forwardMilestones.push({
@@ -51,8 +57,8 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
       }
     }
   } else {
-    // Original logic when at or above activation
-    for (let i = 1; i <= maxMilestones; i++) {
+    // Show milestones after current position, limited by dynamic constraints
+    for (let i = 1; i <= dynamicMilestoneLimit; i++) {
       const milestoneValue = targetGrowthPercentage + i;
       if (milestoneValue <= highestVisibleMilestone) {
         forwardMilestones.push({
@@ -136,11 +142,6 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
         <div className="absolute -top-8 -translate-x-1/2 bg-white px-3 py-1.5 rounded-md shadow-md border border-gray-200 font-bold text-sm">
           {formattedGrowth}%
         </div>
-      </div>
-      
-      {/* Debug element to ensure rendering works - this should be visible */}
-      <div className="absolute left-0 -top-36 bg-red-500 text-white px-2 py-1 text-xs rounded z-50">
-        Debug Milestone
       </div>
     </div>
   );

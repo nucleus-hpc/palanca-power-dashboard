@@ -5,8 +5,6 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import GrowthCardHeader from './growth/GrowthCardHeader';
 import GrowthIndicator from './growth/GrowthIndicator';
 import ProgressBarV1 from './growth/ProgressBarV1';
-import ProgressBarV2 from './growth/ProgressBarV2';
-import ProgressBarV3 from './growth/ProgressBarV3';
 import TotalSales from './growth/TotalSales';
 import VolumeStats from './growth/VolumeStats';
 
@@ -78,9 +76,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
           
-        {/* Enhanced Progress Bar - Version 1 */}
+        {/* Progress Bar with Dynamic Milestone Spacing */}
         <div className="mb-12 pt-24 pb-16 overflow-visible">
-          <h3 className="text-sm font-medium mb-2">Opción 1</h3>
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -90,33 +87,6 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
             calculatePosition={calculatePosition}
             formatCurrency={formatCurrency}
             currency={currency}
-          />
-        </div>
-        
-        {/* Alternative Progress Bar Design - Version 2 */}
-        <div className="mb-12 overflow-visible pt-16 pb-16">
-          <h3 className="text-sm font-medium mb-2">Opción 2</h3>
-          <ProgressBarV2 
-            growthPercentage={growthPercentage}
-            targetGrowthPercentage={targetGrowthPercentage}
-            hasReachedTarget={hasReachedTarget}
-            highestVisibleMilestone={highestVisibleMilestone}
-            formatCurrency={formatCurrency}
-            currency={currency}
-          />
-        </div>
-        
-        {/* Alternative Progress Bar Design - Version 3 */}
-        <div className="mb-8 overflow-visible pt-8 pb-16">
-          <h3 className="text-sm font-medium mb-2">Opción 3</h3>
-          <ProgressBarV3 
-            growthPercentage={growthPercentage}
-            targetGrowthPercentage={targetGrowthPercentage}
-            hasReachedTarget={hasReachedTarget}
-            formatCurrency={formatCurrency}
-            currency={currency}
-            t={t}
-            highestVisibleMilestone={highestVisibleMilestone}
           />
         </div>
         
