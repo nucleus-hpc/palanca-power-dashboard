@@ -57,14 +57,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
     <Card className="mb-4 overflow-visible rounded-xl shadow-lg">
       <div className="h-1 bg-commission-primary"></div>
       <CardContent className="p-4 overflow-visible">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <GrowthCardHeader t={t} />
-            <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
-              <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
-              Este mes
-            </div>
-          </div>
+        <div className="mb-6">
+          <GrowthCardHeader t={t} />
         </div>
         
         <TotalSales 
@@ -76,7 +70,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           growthPercentage={growthPercentage}
         />
         
-        <div className="mt-6 mb-8">
+        <div className="my-8">
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -89,8 +83,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
         
-        {/* Commission description section with 24px margin */}
-        <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm mb-4 mt-6">
+        {/* Commission description section with increased top margin */}
+        <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm mb-6 mt-12 border border-[#D1CFD7]">
           <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
             <Pencil className="h-5 w-5 text-commission-primary" />
           </div>
@@ -104,16 +98,16 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           hasReachedTarget={hasReachedTarget}
           targetGrowthPercentage={targetGrowthPercentage}
           growthTarget={growthTarget}
-          currentMonthSales={currentMonthSales}
-          remainingSalesNeeded={remainingSalesNeeded}
-          commissionEarned={commissionEarned}
+          currentMonthSales={50000}
+          remainingSalesNeeded={0}
+          commissionEarned={2224.17}
           formatCurrency={formatCurrency}
           currency={currency}
           t={t}
         />
         
         {/* Caption moved to the bottom */}
-        <div className="text-xs text-muted-foreground italic mt-4">
+        <div className="text-xs text-muted-foreground italic mt-6">
           Los pedidos tipo Negociación Especial o Negociación para Crecer no aplican a las ventas totales para el cálculo de esta comisión
         </div>
       </CardContent>

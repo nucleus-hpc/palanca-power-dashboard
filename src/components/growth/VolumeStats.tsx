@@ -28,7 +28,7 @@ const VolumeStats: React.FC<VolumeStatsProps> = ({
   t
 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
       <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
         <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
           <Target className="h-5 w-5 text-commission-primary" />
@@ -64,12 +64,14 @@ const VolumeStats: React.FC<VolumeStatsProps> = ({
         </div>
       </div>
       
-      {/* Now using our reusable CommissionEarned component */}
-      <CommissionEarned 
-        amount={commissionEarned} 
-        currency={currency} 
-        label={t.content.commissionEarned}
-      />
+      {/* Commission earned component with consistent styling */}
+      <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card shadow-sm">
+        <CommissionEarned 
+          amount={commissionEarned} 
+          currency={currency} 
+          label={t.content.commissionEarned}
+        />
+      </div>
     </div>
   );
 };

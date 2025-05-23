@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Shield } from 'lucide-react';
-import { useLanguage } from '@/i18n/LanguageContext';
+import { DollarSign, Calendar } from 'lucide-react';
 
 interface WeeklyCommissionSummaryProps {
   dateRange: string;
@@ -10,15 +9,12 @@ interface WeeklyCommissionSummaryProps {
   currency: string;
 }
 
-const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({ 
-  dateRange, 
-  commission, 
-  currency 
+const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
+  dateRange,
+  commission,
+  currency
 }) => {
-  const { t } = useLanguage();
-  const isPositive = commission > 0;
-
-  // Format currency with two decimal places
+  // Format numbers with two decimal places
   const formatCurrency = (value: number) => {
     return value.toLocaleString('es-GT', { 
       minimumFractionDigits: 2,
@@ -26,31 +22,25 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
     });
   };
 
-  // Background and text colors based on amount
-  const bgColor = isPositive ? 'bg-[#10B981]' : 'bg-[#D93025]';
-  const textColor = 'text-white';
-
   return (
-    <Card className="mb-6 shadow-md rounded-xl overflow-hidden">
-      <CardContent className={`p-6 ${bgColor}`}>
-        <div className="flex items-center gap-3">
-          <div className="p-3 rounded-full bg-white/20">
-            <Shield className={`h-6 w-6 ${textColor}`} />
-          </div>
-          
-          <div className="flex flex-col">
-            <div className={`text-sm font-medium ${textColor}`}>
+    <Card className="mb-4 rounded-xl shadow-lg">
+      <div className="h-1 bg-commission-primary"></div>
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <h2 className="font-bold text-lg flex items-center">
+              <DollarSign className="h-5 w-5 mr-3 text-commission-primary" />
+              Comisión Semanal
+            </h2>
+            <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
+              <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
               {dateRange}
             </div>
-            <div className="flex flex-col">
-              <h2 className={`text-sm font-medium ${textColor}`}>
-                {t.content.weeklyCommission}
-              </h2>
-              <div className={`text-3xl font-bold ${textColor}`}>
-                {currency}{formatCurrency(commission)}
-              </div>
-            </div>
           </div>
+        </div>
+        
+        <div className="text-3xl font-bold text-commission-primary">
+          {currency}{formatCurrency(1644.17)}
         </div>
       </CardContent>
     </Card>

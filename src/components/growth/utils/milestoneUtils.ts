@@ -49,60 +49,82 @@ export const calculateMilestones = (
   highestVisibleMilestone: number,
   calculatePosition: (value: number) => number
 ) => {
-  const MIN_SPACING = 6; // Minimum spacing between milestones
+  const MIN_SPACING = 8; // Minimum spacing between milestones
   const shouldShowNegative = growthPercentage < 0;
-  const remainingSpace = highestVisibleMilestone - Math.ceil(growthPercentage);
-  const dynamicMilestoneLimit = Math.min(3, Math.floor(remainingSpace / MIN_SPACING));
   
   // Generate negative milestone markers if growth is negative
   const negativeMilestones = shouldShowNegative 
-    ? [-50, -40, -30, -20, -10].filter(value => 
-        value >= lowestVisibleMilestone && 
-        calculatePosition(value) <= calculatePosition(Math.min(0, growthPercentage + 10)))
+    ? [-50, -40, -30, -20, -10].filter(value => {
+        const position = calculatePosition(value);
+        return value >= lowestVisibleMilestone && 
+               position >= 5 && 
+               position <= 95;
+      })
     : [];
   
-  // Generate forward milestones
+  // Generate forward milestones based on current scenario
   const forwardMilestones = [];
 
-  if (growthPercentage < targetGrowthPercentage) {
-    // Show milestones at and after the target activation point
-    const milestonesToShow = Math.min(3, dynamicMilestoneLimit + 1);
+  if (growthPercentage >= targetGrowthPercentage) {
+    // Scenario: Growth has reached or exceeded activation point
+    // Show milestones after the current position
+    const startMilestone = Math.max(targetGrowthPercentage + 1, Math.ceil(growthPercentage) + 1);
     
-    for (let i = 0; i < milestonesToShow; i++) {
-      const milestoneValue = targetGrowthPercentage + i;
-      if (milestoneValue <= highestVisibleMilestone) {
+    for (let i = 0; i < 4; i++) {
+      const milestoneValue = startMilestone + i;
+      const position = calculatePosition(milestoneValue);
+      
+      if (milestoneValue <= highestVisibleMilestone && position <= 95) {
         forwardMilestones.push({
           value: milestoneValue,
-          position: calculatePosition(milestoneValue),
-          reward: i === 0 ? 1000 : 250 * i,
+          position: position,
+          reward: milestoneValue === targetGrowthPercentage ? 1000 : 250 * (milestoneValue - targetGrowthPercentage),
           isUnlocked: growthPercentage >= milestoneValue,
-          isTarget: i === 0
+          isTarget: milestoneValue === targetGrowthPercentage
         });
       }
     }
   } else {
-    // Show milestones after current position
-    for (let i = 1; i <= dynamicMilestoneLimit; i++) {
-      const milestoneValue = targetGrowthPercentage + i;
-      if (milestoneValue <= highestVisibleMilestone) {
-        forwardMilestones.push({
-          value: milestoneValue,
-          position: calculatePosition(milestoneValue),
-          reward: 250 * i,
-          isUnlocked: growthPercentage >= milestoneValue,
-          isTarget: false
-        });
+    // Scenario: Growth has not reached activation point
+    // Show activation point and a few milestones after it
+    const targetPosition = calculatePosition(targetGrowthPercentage);
+    
+    if (targetPosition >= 5 && targetPosition <= 95) {
+      // Add the target milestone
+      forwardMilestones.push({
+        value: targetGrowthPercentage,
+        position: targetPosition,
+        reward: 1000,
+        isUnlocked: false,
+        isTarget: true
+      });
+      
+      // Add a few milestones after the target
+      for (let i = 1; i <= 3; i++) {
+        const milestoneValue = targetGrowthPercentage + i;
+        const position = calculatePosition(milestoneValue);
+        
+        if (milestoneValue <= highestVisibleMilestone && position <= 95) {
+          forwardMilestones.push({
+            value: milestoneValue,
+            position: position,
+            reward: 250 * i,
+            isUnlocked: false,
+            isTarget: false
+          });
+        }
       }
     }
   }
   
-  // Determine if we need to show zero separately
+  // Only show zero separately if it's in a reasonable position and makes sense
   const zeroPosition = calculatePosition(0);
   const showZeroSeparately = 
-    growthPercentage > -10 &&
-    zeroPosition > 0 &&
-    !shouldShowNegative &&
-    growthPercentage < targetGrowthPercentage;
+    growthPercentage < targetGrowthPercentage &&
+    growthPercentage > -5 &&
+    zeroPosition >= 10 &&
+    zeroPosition <= 90 &&
+    !shouldShowNegative;
     
   return {
     negativeMilestones,
