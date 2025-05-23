@@ -34,9 +34,12 @@ export const growthVolumeData = {
 
 // Payment collection data
 export const paymentCollectionData = {
-  totalPayments: 12,
+  totalPayments: 10,
   paymentsCollected: 8,
   commissionEarned: 850, // 0.5% of collected amounts
+  overduePayments: 2,    // New: Number of overdue payments collected
+  upcomingPayments: 1,   // New: Number of upcoming payments collected
+  totalCollected: 170000, // New: Total amount collected
 };
 
 // Commission drivers

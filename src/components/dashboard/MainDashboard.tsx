@@ -41,6 +41,9 @@ interface MainDashboardProps {
     totalPayments: number;
     paymentsCollected: number;
     commissionEarned: number;
+    overduePayments: number; // New prop
+    upcomingPayments: number; // New prop
+    totalCollected: number; // New prop
   };
   commissionDrivers: Array<{
     id: number;
@@ -155,6 +158,9 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
             paymentsCollected={paymentCollectionData.paymentsCollected}
             commissionEarned={paymentCollectionData.commissionEarned}
             currency={salesRepData.currency}
+            overduePayments={paymentCollectionData.overduePayments}
+            upcomingPayments={paymentCollectionData.upcomingPayments}
+            totalCollected={paymentCollectionData.totalCollected}
           />
         </div>
         

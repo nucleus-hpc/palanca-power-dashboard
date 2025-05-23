@@ -56,7 +56,10 @@ export const mockSalesReps = [
       paymentCollectionData: {
         totalPayments: 12,
         paymentsCollected: 6,
-        commissionEarned: 650
+        commissionEarned: 650,
+        overduePayments: 1,
+        upcomingPayments: 1,
+        totalCollected: 130000
       },
       commissionDrivers: defaultDrivers.map(driver => ({
         ...driver,
@@ -101,7 +104,10 @@ export const mockSalesReps = [
       paymentCollectionData: {
         totalPayments: 10,
         paymentsCollected: 4,
-        commissionEarned: 450
+        commissionEarned: 450,
+        overduePayments: 1,
+        upcomingPayments: 0,
+        totalCollected: 90000
       },
       commissionDrivers: defaultDrivers.map(driver => ({
         ...driver,
@@ -155,7 +161,10 @@ export const mockSalesReps = [
       paymentCollectionData: {
         totalPayments: 15,
         paymentsCollected: 14,
-        commissionEarned: 1200
+        commissionEarned: 1200,
+        overduePayments: 3,
+        upcomingPayments: 2,
+        totalCollected: 240000
       },
       commissionDrivers: defaultDrivers.map(driver => ({
         ...driver,
