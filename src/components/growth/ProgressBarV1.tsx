@@ -37,6 +37,13 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   const MIN_SPACING = 4; // Minimum 4% spacing between milestones
   const remainingSpace = highestVisibleMilestone - Math.ceil(growthPercentage);
   const dynamicMilestoneLimit = Math.min(3, Math.floor(remainingSpace / MIN_SPACING));
+
+  // Generate negative milestone markers if growth is negative
+  const negativeMilestones = shouldShowNegative 
+    ? [-50, -40, -30, -20, -10].filter(value => 
+        value >= lowestVisibleMilestone && 
+        calculatePosition(value) <= calculatePosition(Math.min(0, growthPercentage + 10)))
+    : [];
   
   // Generate milestone markers based on growth relative to target
   const forwardMilestones = [];
@@ -52,7 +59,8 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
           value: milestoneValue,
           position: calculatePosition(milestoneValue),
           reward: i === 0 ? 1000 : 250 * i,
-          isUnlocked: growthPercentage >= milestoneValue
+          isUnlocked: growthPercentage >= milestoneValue,
+          isTarget: i === 0 // Flag to identify the target milestone
         });
       }
     }
@@ -65,83 +73,118 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
           value: milestoneValue,
           position: calculatePosition(milestoneValue),
           reward: 250 * i,
-          isUnlocked: growthPercentage >= milestoneValue
+          isUnlocked: growthPercentage >= milestoneValue,
+          isTarget: false
         });
       }
     }
   }
 
+  // Determine if we need to show zero separately (when it's not already in the negative milestones)
+  const showZeroSeparately = zeroPosition > 0 && 
+    (!shouldShowNegative || !negativeMilestones.includes(0)) && 
+    growthPercentage > -10;
+
   return (
-    <div className="relative h-12 bg-gray-100 rounded-full overflow-visible mb-20 shadow-inner">
+    <div className="relative h-12 bg-gray-100 rounded-full overflow-visible shadow-inner">
       {/* Progress bar fill */}
       <div 
         className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}
         style={{ width: `${Math.max(0, currentPosition)}%` }}
       ></div>
       
-      {/* Zero marker - always at the far left */}
-      <div className="absolute top-0 h-full w-0.5 bg-gray-400" style={{ left: 0 }}>
-        <div className="absolute bottom-[-2.5rem] -translate-x-1/2 bg-gray-700 text-white px-2 py-0.5 rounded-sm text-xs">
-          0%
-        </div>
-      </div>
-      
-      {/* Negative markers - only show if below zero */}
-      {shouldShowNegative && [-50, -40, -30, -20, -10].map(value => (
+      {/* Negative milestone markers */}
+      {negativeMilestones.map(value => (
         <div 
           key={`neg-${value}`}
-          className="absolute top-0 h-full w-0.5 bg-gray-300"
+          className="absolute top-0 h-full w-0.5 bg-status-danger"
           style={{ left: `${calculatePosition(value)}%` }}
         >
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-xs text-status-danger font-medium">
-            {value}%
+          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
+            <div className="text-xs font-medium text-status-danger">
+              {value}%
+            </div>
+            <div className="text-xs">
+              &nbsp;
+            </div>
           </div>
         </div>
       ))}
+
+      {/* Zero marker - only show if it makes sense in the context */}
+      {showZeroSeparately && (
+        <div 
+          className="absolute top-0 h-full w-0.5 bg-gray-400" 
+          style={{ left: `${zeroPosition}%` }}
+        >
+          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
+            <div className="text-xs font-medium text-gray-700">
+              0%
+            </div>
+            <div className="text-xs">
+              &nbsp;
+            </div>
+          </div>
+        </div>
+      )}
       
-      {/* Target marker (13%) - Always visible as activation point */}
+      {/* Target marker (activation point) */}
       <div 
-        className="absolute top-0 h-full w-0.5 bg-sidebar-accent z-20"
+        className="absolute top-0 h-full w-0.5 bg-commission-dark z-20"
         style={{ left: `${targetPosition}%` }}
       >
         {/* Activation Flag - Above the bar */}
         <div className="absolute top-[-4.5rem] -translate-x-1/2 flex flex-col items-center z-40 pointer-events-none">
-          <div className="bg-sidebar-accent text-white px-2 py-1 rounded-t-md text-xs whitespace-nowrap">
+          <div className="bg-commission-dark text-white px-2 py-1 rounded-t-md text-xs whitespace-nowrap">
             Punto de Activación
           </div>
-          <div className="bg-sidebar-accent text-white p-2 rounded-b-md shadow-md text-center">
+          <div className="bg-commission-dark text-white p-2 rounded-b-md shadow-md text-center">
             <div className="font-bold text-sm">{targetGrowthPercentage}%</div>
             <div className="text-xs">+{currency}{formatCurrency(1000)}</div>
           </div>
-          <div className="h-10 w-0.5 bg-sidebar-accent"></div>
+          <div className="h-10 w-0.5 bg-commission-dark"></div>
         </div>
         
         {/* Only show the label below if we don't have a milestone for the target */}
-        {growthPercentage < targetGrowthPercentage && (
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 font-medium text-sm bg-sidebar-accent bg-opacity-10 p-1 rounded">
-            <div className="text-xs">{targetGrowthPercentage}%</div>
-            <div className="text-xs font-normal">+{currency}{formatCurrency(1000)}</div>
+        {!forwardMilestones.some(m => m.isTarget) && (
+          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
+            <div className="text-xs font-medium text-commission-dark">
+              {targetGrowthPercentage}%
+            </div>
+            <div className="text-xs">
+              +{currency}{formatCurrency(1000)}
+            </div>
           </div>
         )}
       </div>
       
-      {/* Forward milestone markers - after target, now below the bar */}
-      {forwardMilestones.map((milestone, index) => (
-        <div 
-          key={`forward-${index}`}
-          className={`absolute top-0 h-full w-0.5 ${milestone.isUnlocked ? 'bg-status-success' : 'bg-gray-400'}`}
-          style={{ left: `${milestone.position}%` }}
-        >
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
-            <div className={`text-xs font-medium ${milestone.isUnlocked ? 'text-status-success' : 'text-gray-600'}`}>
-              {milestone.value}%
-            </div>
-            <div className="text-xs">
-              +{currency}{formatCurrency(milestone.reward)}
+      {/* Forward milestone markers - after target */}
+      {forwardMilestones.map((milestone, index) => {
+        // Determine color based on milestone state
+        let milestoneColor = milestone.isTarget ? 'bg-commission-dark' : 
+                            (milestone.isUnlocked ? 'bg-status-success' : 'bg-gray-400');
+        
+        // Text color for the labels
+        let textColor = milestone.isTarget ? 'text-commission-dark' : 
+                      (milestone.isUnlocked ? 'text-status-success' : 'text-gray-600');
+                      
+        return (
+          <div 
+            key={`forward-${index}`}
+            className={`absolute top-0 h-full w-0.5 ${milestoneColor}`}
+            style={{ left: `${milestone.position}%` }}
+          >
+            <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
+              <div className={`text-xs font-medium ${textColor}`}>
+                {milestone.value}%
+              </div>
+              <div className="text-xs">
+                +{currency}{formatCurrency(milestone.reward)}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       
       {/* Current position marker */}
       <div 
