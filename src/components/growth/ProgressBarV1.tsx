@@ -33,8 +33,8 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
   // Determine milestones to display based on current growth
   const shouldShowNegative = growthPercentage < 0;
   
-  // Dynamic milestone spacing logic
-  const MIN_SPACING = 4; // Minimum 4% spacing between milestones
+  // Dynamic milestone spacing logic with increased minimum spacing
+  const MIN_SPACING = 6; // Increased from 4% to 6%
   const remainingSpace = highestVisibleMilestone - Math.ceil(growthPercentage);
   const dynamicMilestoneLimit = Math.min(3, Math.floor(remainingSpace / MIN_SPACING));
 
@@ -80,10 +80,63 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
     }
   }
 
-  // Determine if we need to show zero separately (when it's not already in the negative milestones)
-  const showZeroSeparately = zeroPosition > 0 && 
-    (!shouldShowNegative || !negativeMilestones.includes(0)) && 
-    growthPercentage > -10;
+  // Helper function to determine milestone color based on state
+  const getMilestoneStyle = (value: number, isTarget: boolean, isUnlocked: boolean) => {
+    if (isTarget) {
+      return {
+        bgColor: 'bg-commission-dark',
+        textColor: 'text-commission-dark'
+      };
+    }
+    
+    if (value < targetGrowthPercentage) {
+      return {
+        bgColor: 'bg-status-danger',
+        textColor: 'text-status-danger'
+      };
+    }
+    
+    if (isUnlocked) {
+      return {
+        bgColor: 'bg-status-success',
+        textColor: 'text-status-success'
+      };
+    }
+    
+    return {
+      bgColor: 'bg-gray-400',
+      textColor: 'text-gray-600'
+    };
+  };
+
+  // Determine if we need to show zero separately
+  const showZeroSeparately = 
+    growthPercentage > -10 &&
+    zeroPosition > 0 &&
+    !shouldShowNegative &&
+    growthPercentage < targetGrowthPercentage;
+
+  // Milestone label component for consistent styling
+  const MilestoneLabel = ({ 
+    value, 
+    textColorClass, 
+    reward = null 
+  }: { 
+    value: number, 
+    textColorClass: string, 
+    reward?: number | null 
+  }) => (
+    <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center whitespace-nowrap">
+      <div className={`text-xs font-medium ${textColorClass}`}>
+        {value}%
+      </div>
+      {reward !== null && (
+        <div className="text-xs">
+          +{currency}{formatCurrency(reward)}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="relative h-12 bg-gray-100 rounded-full overflow-visible shadow-inner">
@@ -94,22 +147,18 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
       ></div>
       
       {/* Negative milestone markers */}
-      {negativeMilestones.map(value => (
-        <div 
-          key={`neg-${value}`}
-          className="absolute top-0 h-full w-0.5 bg-status-danger"
-          style={{ left: `${calculatePosition(value)}%` }}
-        >
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
-            <div className="text-xs font-medium text-status-danger">
-              {value}%
-            </div>
-            <div className="text-xs">
-              &nbsp;
-            </div>
+      {negativeMilestones.map(value => {
+        const { bgColor, textColor } = getMilestoneStyle(value, false, false);
+        return (
+          <div 
+            key={`neg-${value}`}
+            className={`absolute top-0 h-full w-0.5 ${bgColor}`}
+            style={{ left: `${calculatePosition(value)}%` }}
+          >
+            <MilestoneLabel value={value} textColorClass={textColor} />
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Zero marker - only show if it makes sense in the context */}
       {showZeroSeparately && (
@@ -117,14 +166,7 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
           className="absolute top-0 h-full w-0.5 bg-gray-400" 
           style={{ left: `${zeroPosition}%` }}
         >
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
-            <div className="text-xs font-medium text-gray-700">
-              0%
-            </div>
-            <div className="text-xs">
-              &nbsp;
-            </div>
-          </div>
+          <MilestoneLabel value={0} textColorClass="text-gray-700" />
         </div>
       )}
       
@@ -133,55 +175,49 @@ const ProgressBarV1: React.FC<ProgressBarV1Props> = ({
         className="absolute top-0 h-full w-0.5 bg-commission-dark z-20"
         style={{ left: `${targetPosition}%` }}
       >
-        {/* Activation Flag - Above the bar */}
-        <div className="absolute top-[-4.5rem] -translate-x-1/2 flex flex-col items-center z-40 pointer-events-none">
-          <div className="bg-commission-dark text-white px-2 py-1 rounded-t-md text-xs whitespace-nowrap">
-            Punto de Activación
+        {/* Activation Flag - Above the bar, only shown when not yet reached */}
+        {growthPercentage < targetGrowthPercentage && (
+          <div className="absolute top-[-4.5rem] -translate-x-1/2 flex flex-col items-center z-40 pointer-events-none">
+            <div className="bg-commission-dark text-white px-2 py-1 rounded-t-md text-xs whitespace-nowrap">
+              Punto de Activación
+            </div>
+            <div className="bg-commission-dark text-white p-2 rounded-b-md shadow-md text-center">
+              <div className="font-bold text-sm">{targetGrowthPercentage}%</div>
+              <div className="text-xs">+{currency}{formatCurrency(1000)}</div>
+            </div>
+            <div className="h-10 w-0.5 bg-commission-dark"></div>
           </div>
-          <div className="bg-commission-dark text-white p-2 rounded-b-md shadow-md text-center">
-            <div className="font-bold text-sm">{targetGrowthPercentage}%</div>
-            <div className="text-xs">+{currency}{formatCurrency(1000)}</div>
-          </div>
-          <div className="h-10 w-0.5 bg-commission-dark"></div>
-        </div>
+        )}
         
-        {/* Only show the label below if we don't have a milestone for the target */}
-        {!forwardMilestones.some(m => m.isTarget) && (
-          <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
-            <div className="text-xs font-medium text-commission-dark">
-              {targetGrowthPercentage}%
-            </div>
-            <div className="text-xs">
-              +{currency}{formatCurrency(1000)}
-            </div>
-          </div>
+        {/* Target milestone label below the bar */}
+        {growthPercentage >= targetGrowthPercentage && (
+          <MilestoneLabel 
+            value={targetGrowthPercentage} 
+            textColorClass="text-commission-dark" 
+            reward={1000} 
+          />
         )}
       </div>
       
       {/* Forward milestone markers - after target */}
       {forwardMilestones.map((milestone, index) => {
-        // Determine color based on milestone state
-        let milestoneColor = milestone.isTarget ? 'bg-commission-dark' : 
-                            (milestone.isUnlocked ? 'bg-status-success' : 'bg-gray-400');
+        const { bgColor, textColor } = getMilestoneStyle(
+          milestone.value, 
+          milestone.isTarget, 
+          milestone.isUnlocked
+        );
         
-        // Text color for the labels
-        let textColor = milestone.isTarget ? 'text-commission-dark' : 
-                      (milestone.isUnlocked ? 'text-status-success' : 'text-gray-600');
-                      
         return (
           <div 
             key={`forward-${index}`}
-            className={`absolute top-0 h-full w-0.5 ${milestoneColor}`}
+            className={`absolute top-0 h-full w-0.5 ${bgColor}`}
             style={{ left: `${milestone.position}%` }}
           >
-            <div className="absolute bottom-[-2.5rem] -translate-x-1/2 text-center">
-              <div className={`text-xs font-medium ${textColor}`}>
-                {milestone.value}%
-              </div>
-              <div className="text-xs">
-                +{currency}{formatCurrency(milestone.reward)}
-              </div>
-            </div>
+            <MilestoneLabel 
+              value={milestone.value} 
+              textColorClass={textColor}
+              reward={milestone.reward} 
+            />
           </div>
         );
       })}

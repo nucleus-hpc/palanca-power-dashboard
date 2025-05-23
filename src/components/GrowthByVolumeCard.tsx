@@ -67,7 +67,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         />
         
         {/* Main Growth Percentage Indicator */}
-        <div className="mt-4 mb-4">
+        <div className="mt-3 mb-3">
           <GrowthIndicator 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
@@ -76,8 +76,8 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
           
-        {/* Progress Bar with Dynamic Milestone Spacing - Further reduced vertical margins */}
-        <div className="mb-8 pt-12 pb-6 overflow-visible">
+        {/* Progress Bar with Dynamic Milestone Spacing - Reduced vertical margins */}
+        <div className="mb-6 pt-10 pb-4 overflow-visible">
           <ProgressBarV1 
             growthPercentage={growthPercentage}
             targetGrowthPercentage={targetGrowthPercentage}
