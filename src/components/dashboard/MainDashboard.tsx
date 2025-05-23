@@ -154,6 +154,8 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           />
         </div>
         
+        {/* All sections below are now hidden as requested */}
+        {/* 
         <CommissionSummary
           totalCommission={salesRepData.commission}
           goal={salesRepData.goal}
@@ -172,6 +174,7 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
           currency={salesRepData.currency}
           t={t}
         />
+        */}
       </div>
     </div>
   );

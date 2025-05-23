@@ -33,7 +33,7 @@ const TotalSales: React.FC<TotalSalesProps> = ({
         <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
           {currency}{formatCurrency(totalSales)}
         </div>
-        <div className={`text-sm font-medium ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+        <div className={`px-3 py-1 rounded-md text-white font-bold text-base ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}>
           {formattedGrowth}%
         </div>
       </div>

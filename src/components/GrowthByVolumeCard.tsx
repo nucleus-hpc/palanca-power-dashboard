@@ -8,7 +8,7 @@ import ProgressBarV1 from './growth/ProgressBarV1';
 import TotalSales from './growth/TotalSales';
 import VolumeStats from './growth/VolumeStats';
 import DetailsButton from '@/components/ui/details-button';
-import { Calendar, CreditCard } from 'lucide-react';
+import { Calendar, CreditCard, Pencil } from 'lucide-react';
 
 interface GrowthByVolumeCardProps {
   totalSales: number;
@@ -57,10 +57,10 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
     <Card className="mb-4 overflow-visible rounded-xl shadow-lg">
       <div className="h-1 bg-commission-primary"></div>
       <CardContent className="p-4 overflow-visible">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
             <GrowthCardHeader t={t} />
-            <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center ml-3">
+            <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
               <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
               Este mes
             </div>
@@ -68,7 +68,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
         </div>
         
         <TotalSales 
-          totalSales={totalSales}
+          totalSales={156500}
           hasReachedTarget={hasReachedTarget}
           formatCurrency={formatCurrency}
           currency={currency}
@@ -89,20 +89,15 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           />
         </div>
         
-        {/* Commission description section */}
-        <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm mb-4">
+        {/* Commission description section with 24px margin */}
+        <div className="bg-gray-50 p-3 rounded-xl flex items-center dark:highlighted-card shadow-sm mb-4 mt-6">
           <div className="bg-gray-100 p-3 rounded-full mr-4 dark:bg-gray-700">
-            <CreditCard className="h-5 w-5 text-commission-primary" />
+            <Pencil className="h-5 w-5 text-commission-primary" />
           </div>
           <div>
             <div className="text-sm text-muted-foreground">Descripción de comisión</div>
-            <div className="font-bold">Recibe Q1,000.00 al llegar al punto de activación (13%). Por cada porcentaje adicional, recibe +Q250.00</div>
+            <div className="text-sm">Recibe Q1,000.00 al llegar al punto de activación (13%). Por cada porcentaje adicional, recibe +Q250.00</div>
           </div>
-        </div>
-        
-        {/* Caption */}
-        <div className="text-xs text-muted-foreground italic mb-4">
-          Los pedidos tipo Negociación Especial o Negociación para Crecer no aplican a las ventas totales para el cálculo de esta comisión
         </div>
         
         <VolumeStats 
@@ -116,6 +111,11 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           currency={currency}
           t={t}
         />
+        
+        {/* Caption moved to the bottom */}
+        <div className="text-xs text-muted-foreground italic mt-4">
+          Los pedidos tipo Negociación Especial o Negociación para Crecer no aplican a las ventas totales para el cálculo de esta comisión
+        </div>
       </CardContent>
     </Card>
   );
