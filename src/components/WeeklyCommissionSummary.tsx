@@ -26,26 +26,28 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
     });
   };
 
+  // Background and text colors based on amount
+  const bgColor = isPositive ? 'bg-[#1E8E3E]' : 'bg-[#D93025]';
+  const textColor = 'text-white';
+
   return (
     <Card className="mb-6 shadow-md rounded-xl overflow-hidden">
-      <CardContent className="p-6 bg-gray-50 dark:highlighted-card">
+      <CardContent className={`p-6 ${bgColor}`}>
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-700">
-            <Shield className="h-6 w-6 text-commission-primary" />
+          <div className="p-3 rounded-full bg-white/20">
+            <Shield className={`h-6 w-6 ${textColor}`} />
           </div>
           
           <div className="flex flex-col">
-            <div className="text-sm font-medium text-muted-foreground">
+            <div className={`text-sm font-medium ${textColor}/80`}>
               {dateRange}
             </div>
             <div className="flex flex-col">
-              <h2 className="text-sm font-medium text-muted-foreground">
+              <h2 className={`text-sm font-medium ${textColor}/80`}>
                 {t.content.weeklyCommission}
               </h2>
-              <div className="text-3xl font-bold">
-                <span className={isPositive ? 'text-status-success' : 'text-status-neutral'}>
-                  {currency}{formatCurrency(commission)}
-                </span>
+              <div className={`text-3xl font-bold ${textColor}`}>
+                {currency}{formatCurrency(commission)}
               </div>
             </div>
           </div>

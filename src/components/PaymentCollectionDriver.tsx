@@ -81,7 +81,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
                 {overduePayments} / <span className="text-status-danger font-bold">{totalPayments}</span>
               </span>
             </div>
-            {renderSegments(overduePayments, totalPayments, 'bg-red-100')}
+            {renderSegments(overduePayments, totalPayments, 'bg-[#E3CFCF]')}
           </div>
           
           {/* Upcoming invoices */}
@@ -92,7 +92,7 @@ const PaymentCollectionDriver: React.FC<PaymentCollectionDriverProps> = ({
                 {upcomingPayments} / <span className="text-status-warning font-bold">{21}</span>
               </span>
             </div>
-            {renderSegments(upcomingPayments, 21, 'bg-yellow-100')}
+            {renderSegments(upcomingPayments, 21, 'bg-[#E7E3C5]')}
           </div>
         </div>
         
