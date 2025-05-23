@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import ProfileHeader from '@/components/ProfileHeader';
 import CommissionSummary from '@/components/CommissionSummary';
 import DriverCards from '@/components/DriverCards';
@@ -14,6 +14,7 @@ import { Flag } from 'lucide-react';
 import { getRemainingToGoal, simulateEarnings } from '@/utils/commissionUtils';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useLanguage } from '@/i18n/LanguageContext';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface MainDashboardProps {
   salesRepData: {
@@ -72,6 +73,14 @@ interface MainDashboardProps {
   }>;
   period: string;
   setPeriod: (period: string) => void;
+  allSalesReps: Array<{
+    id: string;
+    name: string;
+    routeNumber: string;
+    performanceLevel: 'low' | 'medium' | 'high';
+  }>;
+  currentSalesRepId: string;
+  onSalesRepChange: (id: string) => void;
 }
 
 const MainDashboard: React.FC<MainDashboardProps> = ({
@@ -83,7 +92,10 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   penalties,
   historicalData,
   period,
-  setPeriod
+  setPeriod,
+  allSalesReps,
+  currentSalesRepId,
+  onSalesRepChange
 }) => {
   const { t } = useLanguage();
   
@@ -91,16 +103,31 @@ const MainDashboard: React.FC<MainDashboardProps> = ({
   const remainingToGoal = getRemainingToGoal(salesRepData.commission, salesRepData.goal);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/80 transition-colors duration-300">
+    <div className="min-h-screen bg-[#F5F5F5] dark:bg-background/80 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-commission-dark dark:text-white">Comisiones</h1>
+          <Select value={currentSalesRepId} onValueChange={onSalesRepChange}>
+            <SelectTrigger className="w-[240px] bg-white dark:bg-sidebar-accent shadow-md">
+              <SelectValue placeholder="Seleccionar vendedor" />
+            </SelectTrigger>
+            <SelectContent>
+              {allSalesReps.map((rep) => (
+                <SelectItem key={rep.id} value={rep.id}>
+                  {rep.name} - Ruta {rep.routeNumber}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="mt-6">
           <ProfileHeader
             name={salesRepData.name}
             routeNumber={salesRepData.routeNumber}
             selectedPeriod={period}
             onPeriodChange={setPeriod}
           />
-          <ThemeToggle />
         </div>
         
         {/* Weekly Commission Summary */}

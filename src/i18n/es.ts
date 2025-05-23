@@ -41,6 +41,8 @@ export const es = {
     noData: "Sin datos",
     ofTarget: "del objetivo",
     toGoal: "para alcanzar meta",
+    seller: "Vendedor",
+    sellers: "Vendedores",
   },
 
   // Headers and section titles
@@ -75,12 +77,12 @@ export const es = {
 
     // Growth by Volume
     totalSalesQuarter: "Ventas Totales este Trimestre",
-    growthTarget: "Objetivo de Crecimiento",
+    growthTarget: "Meta de Crecimiento",
     currentMonthSales: "Ventas del Mes Actual",
-    remainingNeeded: "Restante Necesario",
+    remainingNeeded: "Saldo Pendiente para Crecimiento",
     commissionEarned: "Comisión Ganada",
     currentProgress: "Progreso Actual",
-    targetGrowth: "Objetivo: Crecimiento del",
+    targetGrowth: "Meta: Crecimiento del",
 
     // Driver Cards
     reachToEarn: "Alcanza",

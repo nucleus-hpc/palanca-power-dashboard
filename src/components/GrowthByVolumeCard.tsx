@@ -34,17 +34,45 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
   const { t } = useLanguage();
   const isGrowthPositive = growthPercentage >= 0;
   const hasReachedTarget = growthPercentage >= targetGrowthPercentage;
-  const progressPercentage = Math.min((growthPercentage / (targetGrowthPercentage + 5)) * 100, 100);
-  const targetProgressPosition = (targetGrowthPercentage / (targetGrowthPercentage + 5)) * 100;
   
-  // Generate markers for additional commission tiers (every 1% after target)
-  const additionalMarkers = Array.from({ length: 5 }, (_, i) => {
-    const marker = targetGrowthPercentage + (i + 1);
-    const position = (marker / (targetGrowthPercentage + 5)) * 100;
-    const unlocked = growthPercentage >= marker;
-    const reward = 250;
-    return { marker, position, unlocked, reward };
+  // For the enhanced progress bar
+  const highestVisibleMilestone = Math.max(targetGrowthPercentage + 5, growthPercentage + 2);
+  const lowestVisibleMilestone = Math.min(-50, growthPercentage - 10);
+  const range = highestVisibleMilestone - lowestVisibleMilestone;
+  
+  // Calculate position percentage for the progress bar
+  const calculatePosition = (value: number) => {
+    return ((value - lowestVisibleMilestone) / range) * 100;
+  };
+  
+  // Calculate the current position in the progress bar
+  const currentPosition = calculatePosition(growthPercentage);
+  const targetPosition = calculatePosition(targetGrowthPercentage);
+  
+  // Generate negative markers
+  const negativeMarkers = Array.from({ length: 6 }, (_, i) => {
+    const marker = -50 + (i * 10);
+    return {
+      value: marker,
+      position: calculatePosition(marker),
+      visible: marker >= lowestVisibleMilestone && marker <= highestVisibleMilestone
+    };
   });
+  
+  // Generate milestones for each 1% increment after the target
+  const additionalMarkers = Array.from(
+    { length: Math.max(5, Math.ceil(growthPercentage - targetGrowthPercentage) + 2) },
+    (_, i) => {
+      const marker = targetGrowthPercentage + i + 1;
+      return {
+        value: marker,
+        position: calculatePosition(marker),
+        visible: marker <= highestVisibleMilestone,
+        unlocked: growthPercentage >= marker,
+        reward: 250 * (i + 1)
+      };
+    }
+  );
   
   // Format numbers with two decimal places
   const formatCurrency = (value: number) => {
@@ -71,52 +99,104 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
           <div className={`font-bold text-2xl ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
             {currency}{formatCurrency(totalSales)}
           </div>
-          <div className={`flex items-center text-sm font-medium mt-2 
-            ${isGrowthPositive ? 'text-status-success' : 'text-status-danger'}`}>
-            {isGrowthPositive ? '+' : ''}{growthPercentage}% {t.common.growth}
-          </div>
         </div>
         
-        {/* Enhanced Progress Bar */}
+        {/* Enhanced Progress Bar with Dynamic Milestones */}
         <div className="my-8">
           <div className="text-sm text-muted-foreground mb-3 flex justify-between">
-            <span>{t.content.currentProgress}</span>
-            <span className="font-medium">{t.content.targetGrowth} {targetGrowthPercentage}%</span>
+            <span className={`font-medium text-base ${hasReachedTarget ? 'text-status-success' : 'text-status-danger'}`}>
+              {growthPercentage}%
+            </span>
+            <span className="font-medium">{t.content.targetGrowth.replace('Objetivo', 'Meta')} ({targetGrowthPercentage}%)</span>
           </div>
           
-          <div className="relative h-10 bg-gray-100 rounded-full overflow-hidden mb-8 shadow-inner">
+          <div className="relative h-10 bg-gray-100 rounded-full overflow-hidden mb-16 shadow-inner">
+            {/* Progress bar fill */}
             <div 
-              className={`h-full ${hasReachedTarget ? 'bg-status-success' : 'bg-commission-primary'}`}
-              style={{ width: `${progressPercentage}%`, transition: 'width 1s ease-in-out' }}
+              className={`h-full ${
+                growthPercentage < 0 
+                  ? 'bg-status-danger' 
+                  : hasReachedTarget 
+                    ? 'bg-status-success' 
+                    : 'bg-commission-primary'
+              }`}
+              style={{ 
+                width: `${Math.max(0, currentPosition)}%`, 
+                transition: 'width 1s ease-in-out' 
+              }}
             ></div>
             
-            {/* Target marker - Initial milestone */}
+            {/* Zero marker */}
+            <div 
+              className="absolute top-0 h-full w-0.5 bg-gray-400" 
+              style={{ left: `${calculatePosition(0)}%` }}
+            >
+              <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-gray-400"></div>
+              <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
+                0%
+              </div>
+            </div>
+            
+            {/* Negative markers */}
+            {negativeMarkers.map((marker, index) => (
+              marker.visible && (
+                <div 
+                  key={`neg-${index}`}
+                  className="absolute top-0 h-full w-0.5 bg-gray-300"
+                  style={{ left: `${marker.position}%` }}
+                >
+                  <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-gray-300"></div>
+                  <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap text-status-danger">
+                    {marker.value}%
+                  </div>
+                </div>
+              )
+            ))}
+            
+            {/* Target marker - 13% milestone */}
             <div 
               className="absolute top-0 h-full w-0.5 bg-commission-dark" 
-              style={{ left: `${targetProgressPosition}%` }}
+              style={{ left: `${targetPosition}%` }}
             >
               <div className="absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 border-commission-dark"></div>
-              <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
-                {targetGrowthPercentage}% → {currency}1,000.00
+              <div className="absolute -bottom-16 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
+                <div className="bg-white dark:bg-gray-800 p-2 rounded-md shadow-md border border-gray-200">
+                  <span className="font-bold">{targetGrowthPercentage}%</span>
+                  <br />
+                  <span>{currency}{formatCurrency(1000)}</span>
+                </div>
               </div>
             </div>
             
             {/* Additional reward markers */}
             {additionalMarkers.map((marker, index) => (
-              <div 
-                key={index}
-                className={`absolute top-0 h-full w-0.5 ${marker.unlocked ? 'bg-status-success' : 'bg-status-neutral'}`}
-                style={{ left: `${marker.position}%` }}
-              >
+              marker.visible && (
                 <div 
-                  className={`absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 
-                    ${marker.unlocked ? 'border-status-success' : 'border-status-neutral'}`}>
+                  key={index}
+                  className={`absolute top-0 h-full w-0.5 ${marker.unlocked ? 'bg-status-success' : 'bg-status-neutral'}`}
+                  style={{ left: `${marker.position}%` }}
+                >
+                  <div 
+                    className={`absolute -top-1 -left-1.5 w-3 h-3 rounded-full bg-white border-2 
+                      ${marker.unlocked ? 'border-status-success' : 'border-status-neutral'}`}>
+                  </div>
+                  <div className="absolute -bottom-16 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
+                    <div className="bg-white dark:bg-gray-800 p-2 rounded-md shadow-md border border-gray-200">
+                      <span className="font-bold">{marker.value}%</span>
+                      <br />
+                      <span>+{currency}{formatCurrency(marker.reward)}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute -bottom-8 -translate-x-1/2 text-xs font-medium whitespace-nowrap">
-                  {marker.marker}% → +{currency}{formatCurrency(marker.reward)}
-                </div>
-              </div>
+              )
             ))}
+            
+            {/* Current position marker */}
+            <div 
+              className={`absolute top-0 h-full w-2 ${hasReachedTarget ? 'bg-status-success' : 'bg-status-danger'}`}
+              style={{ left: `${currentPosition}%` }}
+            >
+            </div>
           </div>
         </div>
         
@@ -127,7 +207,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
               <Target className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">{t.content.growthTarget} ({targetGrowthPercentage}%)</div>
+              <div className="text-sm text-muted-foreground">Meta de Crecimiento ({targetGrowthPercentage}%)</div>
               <div className="font-bold">{currency}{formatCurrency(growthTarget)}</div>
             </div>
           </div>
@@ -147,28 +227,19 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
               <ArrowRight className="h-5 w-5 text-commission-primary" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">{t.content.remainingNeeded}</div>
+              <div className="text-sm text-muted-foreground">Saldo Pendiente para Crecimiento</div>
               <div className="font-bold">{currency}{formatCurrency(remainingSalesNeeded)}</div>
             </div>
           </div>
           
-          {/* Commission earned with shield icon */}
-          <div className="bg-gray-50 p-4 rounded-xl flex items-center dark:highlighted-card border border-commission-primary/30 dark:border-commission-primary/20 shadow-sm">
-            <div className={`p-3 rounded-full mr-4 
-              ${commissionEarned > 0 
-                ? 'bg-commission-primary/20' 
-                : 'bg-status-neutral dark:bg-gray-700'}`}>
-              <Shield className={`h-5 w-5 
-                ${commissionEarned > 0 
-                  ? 'text-commission-primary' 
-                  : 'text-status-neutral'}`} />
+          {/* Commission earned with green background */}
+          <div className="bg-status-success p-4 rounded-xl flex items-center shadow-sm">
+            <div className="bg-white/30 p-3 rounded-full mr-4">
+              <Shield className="h-5 w-5 text-white" />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">{t.content.commissionEarned}</div>
-              <div className={`font-bold text-lg 
-                ${commissionEarned > 0 
-                  ? 'text-commission-primary' 
-                  : 'text-status-neutral'}`}>
+              <div className="text-sm text-white/90">{t.content.commissionEarned}</div>
+              <div className="font-bold text-lg text-white">
                 {currency}{formatCurrency(commissionEarned)}
               </div>
             </div>
