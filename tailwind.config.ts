@@ -2,7 +2,8 @@
 import type { Config } from "tailwindcss";
 
 export default {
-	darkMode: ["class"],
+	// Temporarily disable dark mode detection
+	darkMode: "class", // Keep this as 'class' but we won't apply the 'dark' class
 	content: [
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
