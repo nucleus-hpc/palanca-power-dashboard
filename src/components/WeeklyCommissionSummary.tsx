@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { DollarSign, Calendar } from 'lucide-react';
+import { Shield, Calendar } from 'lucide-react';
 
 interface WeeklyCommissionSummaryProps {
   dateRange: string;
@@ -28,12 +28,11 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
 
   return (
     <Card className="mb-4 rounded-xl shadow-lg">
-      <div className="h-1 bg-commission-primary"></div>
-      <CardContent className={`p-4 ${bgColor}`}>
+      <CardContent className={`p-4 ${bgColor} rounded-xl`}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <h2 className="font-bold text-lg flex items-center text-white">
-              <DollarSign className="h-5 w-5 mr-3 text-white" />
+              <Shield className="h-5 w-5 mr-3 text-white" />
               Comisión Semanal
             </h2>
             <div className="text-xs px-2 py-1 bg-white/20 rounded-md font-medium text-white flex items-center">
@@ -44,7 +43,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
         </div>
         
         <div className="text-3xl font-bold text-white">
-          {currency}{formatCurrency(1644.17)}
+          {currency}{formatCurrency(commission)}
         </div>
       </CardContent>
     </Card>

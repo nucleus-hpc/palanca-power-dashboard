@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CreditCard, AlertTriangle, Calendar, Shield, Pencil } from 'lucide-react';
+import { CreditCard, AlertTriangle, Calendar, Pencil } from 'lucide-react';
 import CommissionEarned from '@/components/commission/CommissionEarned';
 import DetailsButton from '@/components/ui/details-button';
 
@@ -34,25 +34,9 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
   
   // Calculate penalty amount as 1.5% of totalOverdue
   const penaltyAmount = totalOverdue * 0.015;
-  
-  const renderSegments = (filled: number, total: number, colorClass: string) => {
-    return (
-      <div className="flex gap-1 mt-2">
-        {Array.from({ length: total }).map((_, index) => (
-          <div
-            key={index}
-            className={`h-2 flex-1 rounded-full ${
-              index < filled ? 'bg-status-success' : colorClass
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   return (
     <Card className="mb-4 overflow-visible rounded-xl shadow-lg">
-      <div className="h-1 bg-commission-primary"></div>
       <CardContent className="p-4">
         <div className="flex items-center gap-3 mb-4">
           <h2 className="font-bold text-lg flex items-center">
@@ -62,33 +46,6 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
           <div className="text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-muted-foreground dark:bg-gray-700 flex items-center">
             <Calendar className="h-3 w-3 mr-1 text-muted-foreground" />
             Esta semana
-          </div>
-        </div>
-
-        {/* Facturas por cobrar section - background removed */}
-        <div className="p-4 rounded-lg mb-4">
-          <h3 className="font-medium text-base mb-4">Facturas por cobrar</h3>
-          
-          {/* Overdue invoices */}
-          <div className="mb-4">
-            <div className="flex justify-between mb-1">
-              <span className="text-sm">Vencidas</span>
-              <span className="text-sm">
-                {overduePayments} / <span className="text-status-danger font-bold">{totalPayments}</span>
-              </span>
-            </div>
-            {renderSegments(overduePayments, totalPayments, 'bg-[#E3CFCF]')}
-          </div>
-          
-          {/* Upcoming invoices */}
-          <div>
-            <div className="flex justify-between mb-1">
-              <span className="text-sm">Por vencer</span>
-              <span className="text-sm">
-                {upcomingPayments} / <span className="text-status-warning font-bold">{21}</span>
-              </span>
-            </div>
-            {renderSegments(upcomingPayments, 21, 'bg-[#E7E3C5]')}
           </div>
         </div>
         
