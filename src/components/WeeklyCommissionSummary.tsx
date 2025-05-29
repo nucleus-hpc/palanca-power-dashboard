@@ -27,7 +27,7 @@ const WeeklyCommissionSummary: React.FC<WeeklyCommissionSummaryProps> = ({
   const bgColor = isPositive ? 'bg-status-success' : 'bg-status-danger';
 
   return (
-    <Card className="mb-4 rounded-xl shadow-lg">
+    <Card className="mb-4 rounded-xl border-0">
       <CardContent className={`p-4 ${bgColor} rounded-xl`}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">

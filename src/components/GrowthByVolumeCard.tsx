@@ -54,8 +54,7 @@ const GrowthByVolumeCard: React.FC<GrowthByVolumeCardProps> = ({
   };
 
   return (
-    <Card className="mb-4 overflow-visible rounded-xl shadow-lg">
-      <div className="h-1 bg-commission-primary"></div>
+    <Card className="mb-4 overflow-visible rounded-xl border-0">
       <CardContent className="p-4 overflow-visible">
         <div className="mb-6">
           <GrowthCardHeader t={t} />

@@ -36,7 +36,7 @@ const ChargesAndPenalties: React.FC<ChargesAndPenaltiesProps> = ({
   const penaltyAmount = totalOverdue * 0.015;
 
   return (
-    <Card className="mb-4 overflow-visible rounded-xl shadow-lg">
+    <Card className="mb-4 overflow-visible rounded-xl border-0">
       <CardContent className="p-4">
         <div className="flex items-center gap-3 mb-4">
           <h2 className="font-bold text-lg flex items-center">
